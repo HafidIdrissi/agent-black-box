@@ -1,10 +1,12 @@
-# Verification of the prepared source
+# Verification
 
-Prepared on 2026-10-02 before GitHub publication.
+Verified on 2026-10-02 after GitHub publication.
 
-- 25 core and report tests passed in a JavaScript V8 isolate using an equivalent assertion harness. This includes parsing, result correlation, bounds, secret masking, inert HTML, false-repeat prevention, and safe identifier/key remapping, and bounded scanning of long hyphenated text.
-- JavaScript syntax was checked for the 13 .mjs files after removing module imports and wrapping top-level await for the available runtime. This is not a substitute for Node's native module loading.
-- All 120 proposal IDs/titles are unique, every issue has three criteria, and dependency references exist with no cycles. There are 35 beginner proposals.
-- Node subprocess, HTTP, publisher-preview tests, the actual OS matrix, and a visual browser run were not executable in the preparation environment.
+- [GitHub Actions run 37050007990](https://github.com/HafidIdrissi/agent-black-box/actions/runs/37050007990) passed on code commit `6c0892dac20db37b4ed8fb7c1656b89e37c777e6`.
+- `npm run check` and all 31 `npm test` tests passed in each of six configurations: Node 22 and 24 on Linux, Windows, and macOS.
+- Coverage includes parsing, tool-result correlation, input limits, secret masking, bounded redaction scanning, inert HTML reports, CLI output handling, publisher dry-run output, and the local HTTP server's asset and Host restrictions.
+- All 120 contribution proposals were published as [GitHub issues](https://github.com/HafidIdrissi/agent-black-box/issues). A readback confirmed unique proposal IDs, open status, markers, and the expected beginner/dependency labels. There are 35 beginner proposals; 33 have no prerequisites and carry `good first issue`. The 32 proposals with prerequisites carry `status:blocked`.
+- The issue dependency graph has no cycles and all references resolve.
+- A visual check in a real browser has not been performed in this environment. Try the demo and file import in a current browser before making a release announcement.
 
-Run npm run check and npm test on Node 22+ after extracting the project. CI covers Node 22/24 on Linux, Windows, and macOS once the repository is pushed. Try both demo and file import in a current browser before announcing the release.
+Reproduce with Node 22+: `npm run check` followed by `npm test`. Start the viewer with `npm start`.
