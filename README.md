@@ -1,0 +1,86 @@
+# Agent Black Box
+
+**Your AI agent failed. See what happened.**
+
+A local session debugger for AI coding agents. Import a Claude Code JSONL log, inspect tool calls and errors, find repeated attempts, and export a standalone report.
+
+Early MVP · MIT · Node.js 22+ · No dependencies · No API key
+
+[Français](docs/README.fr.md) · [Contribute](CONTRIBUTING.md) · [Architecture](docs/architecture.md) · [120 contribution proposals](docs/backlog.md)
+
+## Try it in one minute
+
+Clone this repository, enter its directory, then:
+
+```sh
+npm start
+```
+
+Open **http://127.0.0.1:8787/web/** and select **Explore a failed run**. The synthetic session shows a test command failing three times with the same permission error.
+
+No install or build step is required. The demo uses invented data. Imported files are read in browser memory; the application does not upload them or call a model.
+
+## What works today
+
+- Import Claude Code JSONL records containing messages, tool calls, and tool results.
+- Import the version 1 normalized JSON format.
+- Link tool results to their originating calls.
+- Inspect a searchable timeline with tool and error filters.
+- Flag three or more calls with the same tool and arguments. Calls containing masked arguments are excluded to avoid merging different secrets into a false repetition.
+- Apply best-effort masking before display and export.
+- Download normalized JSON and a script-free HTML report.
+- Analyze files or stdin from the command line.
+
+A repeated call is an investigation signal. It does not by itself prove that an agent is stuck. Logs describe recorded activity; Agent Black Box does not replay commands or execute tool calls.
+
+## Command line
+
+```sh
+node bin/agent-black-box.mjs analyze examples/permission-loop.jsonl
+node bin/agent-black-box.mjs analyze examples/permission-loop.jsonl --format html --output demo-report.html
+node bin/agent-black-box.mjs analyze - < examples/permission-loop.jsonl
+node bin/agent-black-box.mjs serve --port 8788
+node bin/agent-black-box.mjs --help
+```
+
+Output files are created exclusively so existing reports are not silently overwritten. JSON output can be imported into the viewer again. This repository is not published to npm; use the checked-out source.
+
+## Privacy and limits
+
+Masking is heuristic, not a guarantee of anonymization. Review every report before sharing it. Free-form logs may include code, names, paths, business information, credentials, and personal data that the masker cannot recognize.
+
+- Input limit: 10 MiB and 20,000 normalized events.
+- No telemetry, accounts, external fonts, CDN assets, or cloud storage.
+- Browser state is in memory and is cleared when the page reloads or the session is reset.
+- The local HTTP server binds to 127.0.0.1 and exposes a fixed list of application assets.
+- Claude Code log formats can change. Unknown records are surfaced as import warnings where possible.
+- This MVP does not capture live sessions, run agents, compare sessions, calculate model costs, or support every agent format.
+
+See [SECURITY.md](SECURITY.md) before sharing logs.
+
+## Contribute
+
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). Choose one scoped issue, describe your approach, and submit a small pull request with evidence that it works.
+
+```sh
+npm run check
+npm test
+```
+
+The backlog contains **120 proposals**, including beginner tasks and larger investigations. The [starter guide](docs/first-contribution.md) explains where to begin. Dependencies are explicit, and future-file paths are suggestions, not existing features.
+
+Code, documentation, accessibility reviews, sanitized fixtures, reproducible bug reports, and thoughtful reviews are welcome. Please do not submit real session secrets, placeholder PRs, or cosmetic changes solely to increase contribution counts.
+
+## Roadmap
+
+1. Improve import fidelity with versioned, synthetic fixtures.
+2. Make failure evidence easier to inspect.
+3. Design useful session comparisons.
+4. Add additional adapters only after documenting their formats.
+5. Improve distribution and integrations without adding mandatory cloud services.
+
+The repository's issue tracker is the working roadmap. A listed proposal is not a promise that it will ship.
+
+## License
+
+[MIT](LICENSE).
