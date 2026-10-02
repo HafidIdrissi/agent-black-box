@@ -49,8 +49,8 @@ if (!apply) {
     beginnerTasks: issues.filter(i => i.difficulty === 'beginner').length,
     issues: issues.map(i => ({ title: '[' + i.id + '] ' + i.title, labels: labelsFor(i), body: bodyFor(i) })),
   }, null, 2));
-  process.exit(0);
 }
+if (apply) {
 // --apply authorizes publication to the exact selected repository.
 // gh owns authentication. Never copy tokens into this repository.
 try {
@@ -89,4 +89,6 @@ try {
   console.error(error.message?.startsWith('Repository') || error.message?.startsWith('Enable') ?
     error.message : 'GitHub operation failed. Check gh authentication, access, and rate limits. Inspect the tracker, then re-run to resume.');
   process.exitCode = 1;
+}
+
 }

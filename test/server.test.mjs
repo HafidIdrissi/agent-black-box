@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { request } from 'node:http';
 import { startServer } from '../lib/server.mjs';
 
 test('local server serves only assets and rejects writes and foreign hosts', async t => {
@@ -16,8 +17,15 @@ test('local server serves only assets and rejects writes and foreign hosts', asy
   }
   const write = await fetch(url, { method: 'POST', body: 'not accepted' });
   assert.equal(write.status, 405);
-  const foreign = await fetch(url, { headers: { Host: 'attacker.example' } });
-  assert.equal(foreign.status, 403);
+  const foreignStatus = await new Promise((resolve, reject) => {
+    const req = request(url, { headers: { Host: 'attacker.example' } }, response => {
+      response.resume();
+      resolve(response.statusCode);
+    });
+    req.on('error', reject);
+    req.end();
+  });
+  assert.equal(foreignStatus, 403);
   const module = await fetch(new URL('/lib/core.mjs', url));
   assert.equal(module.status, 200);
   assert.match(module.headers.get('content-type'), /javascript/);
