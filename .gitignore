@@ -7,3 +7,4 @@ reports/
 .env
 .env.*
 issue-preview.json
+launch-assets/

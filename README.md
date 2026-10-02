@@ -2,13 +2,17 @@
 
 [![CI](https://github.com/HafidIdrissi/agent-black-box/actions/workflows/ci.yml/badge.svg)](https://github.com/HafidIdrissi/agent-black-box/actions/workflows/ci.yml)
 
-**Your AI agent failed. See what happened.**
+**Understand why your coding agent kept retrying — without uploading its logs.**
 
-A local session debugger for AI coding agents. Import a Claude Code JSONL log, inspect tool calls and errors, find repeated attempts, and export a standalone report.
+Import a Claude Code JSONL session, connect failed tool results to their calls, and inspect repeated attempts. Run the included synthetic failure in under a minute.
 
-Early MVP · MIT · Node.js 22+ · No dependencies · No API key
+v0.1.0 · Early MVP · MIT · Node.js 22+ · No runtime dependencies · No API key
 
-[Français](docs/README.fr.md) · [Contribute](CONTRIBUTING.md) · [Find a first issue](https://github.com/HafidIdrissi/agent-black-box/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) · [Architecture](docs/architecture.md) · [120 contribution proposals](docs/backlog.md)
+[Release and downloads](https://github.com/HafidIdrissi/agent-black-box/releases/tag/v0.1.0) · [Français](docs/README.fr.md) · [Contribute](CONTRIBUTING.md) · [Find a first issue](https://github.com/HafidIdrissi/agent-black-box/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) · [Architecture](docs/architecture.md) · [120 contribution proposals](docs/backlog.md)
+
+[![A 30-second walkthrough: import a synthetic agent log, inspect three repeated failures, and export the report](https://github.com/HafidIdrissi/agent-black-box/releases/download/v0.1.0/agent-black-box-demo.gif)](https://github.com/HafidIdrissi/agent-black-box/releases/download/v0.1.0/agent-black-box-demo.mp4)
+
+**Watch:** [30-second video](https://github.com/HafidIdrissi/agent-black-box/releases/download/v0.1.0/agent-black-box-demo.mp4) · [Accessible transcript](docs/demo.md). Captured from the real application with a synthetic session; six views held for five seconds each.
 
 ## Try it in one minute
 
@@ -64,7 +68,7 @@ See [SECURITY.md](SECURITY.md) before sharing logs.
 
 ## Contribute
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md). Choose one scoped issue, describe your approach, and submit a small pull request with evidence that it works.
+Choose one of **[eight launch starter issues](docs/first-contribution.md#eight-places-to-start)** across fixtures, UI, accessibility, reports, CLI, integrations, portability, and translation. Then read [CONTRIBUTING.md](CONTRIBUTING.md). Choose one scoped issue, describe your approach, and submit a small pull request with evidence that it works.
 
 ```sh
 npm run check
@@ -84,6 +88,10 @@ Code, documentation, accessibility reviews, sanitized fixtures, reproducible bug
 5. Improve distribution and integrations without adding mandatory cloud services.
 
 The repository's issue tracker is the working roadmap. A listed proposal is not a promise that it will ship.
+
+## Follow the launch
+
+[Release notes](docs/releases/v0.1.0.md) · [Launch posts and first-week plan](docs/launch.md) · [Verified behavior](docs/verification.md)
 
 ## License
 

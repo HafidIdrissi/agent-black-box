@@ -1,0 +1,75 @@
+name: Launch v0.1.0
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/launch.yml'
+      - 'scripts/capture-demo.mjs'
+      - 'scripts/publish-release.mjs'
+      - 'docs/releases/v0.1.0.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: launch-v0.1.0
+  cancel-in-progress: false
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install isolated capture tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/abb-capture" --no-package-lock --no-audit --no-fund playwright@1.56.1
+          "$RUNNER_TEMP/abb-capture/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Capture and verify the actual browser workflow
+        env:
+          ABB_PLAYWRIGHT_ENTRY: '${{ runner.temp }}/abb-capture/node_modules/playwright/index.mjs'
+          ABB_CAPTURE_PREVIEW_LOG: '1'
+        run: node scripts/capture-demo.mjs
+      - name: Bundle source and checksum the assets
+        run: |
+          git archive --format=zip --prefix=agent-black-box-0.1.0/ HEAD -o launch-assets/agent-black-box-0.1.0.zip
+          cd launch-assets
+          sha256sum agent-black-box-0.1.0.zip agent-black-box-demo.gif agent-black-box-demo.mp4 agent-black-box-preview.png sample-report.html sample-session.json capture-manifest.json > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: launch-v0.1.0
+          path: |
+            launch-assets/agent-black-box-0.1.0.zip
+            launch-assets/agent-black-box-demo.gif
+            launch-assets/agent-black-box-demo.mp4
+            launch-assets/agent-black-box-preview.png
+            launch-assets/sample-report.html
+            launch-assets/sample-session.json
+            launch-assets/capture-manifest.json
+            launch-assets/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+  publish:
+    if: github.repository == 'HafidIdrissi/agent-black-box' && github.ref == 'refs/heads/main'
+    needs: capture
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: launch-v0.1.0
+          path: launch-assets
+      - name: Require passing CI and publish the first release
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: node scripts/publish-release.mjs
