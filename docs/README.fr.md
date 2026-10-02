@@ -4,6 +4,10 @@
 
 Un outil local pour examiner les sessions d'agents de programmation. Cette première version importe des journaux Claude Code JSONL et un format JSON normalisé.
 
+[Télécharger v0.1.0](https://github.com/HafidIdrissi/agent-black-box/releases/tag/v0.1.0) · [Voir la démo de 30 secondes](https://github.com/HafidIdrissi/agent-black-box/releases/download/v0.1.0/agent-black-box-demo.mp4) · [Huit premières contributions](first-contribution.md#eight-places-to-start) · [Textes pour présenter le projet](launch.md)
+
+La démo montre six vues réelles de l’application avec un journal fictif : import, appels répétés, erreur de permission et export du rapport.
+
 ## Démarrage
 
 Node.js 22 ou plus récent suffit. Après avoir cloné le dépôt et ouvert son dossier :
