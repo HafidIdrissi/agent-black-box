@@ -1,0 +1,2363 @@
+[
+  {
+    "id": "ABB-001",
+    "title": "Document minimal normalized v1 trace examples",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Document the existing contract with synthetic examples; this is fixture/documentation work, not schema redesign.",
+    "files": [
+      "lib/core.mjs",
+      "docs/schema-v1-examples.md",
+      "test/fixtures/normalized/"
+    ],
+    "acceptance": [
+      "Provide importable message-only, successful-tool, and failed-tool examples.",
+      "Explain required fields and null-versus-omitted behavior.",
+      "Import each example in a test and assert stated counts."
+    ],
+    "validation": "Run example tests and the full suite.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-002",
+    "title": "Add multilingual and escaped-newline import fixtures",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Cover text preservation in both supported formats without assuming existing corruption.",
+    "files": [
+      "lib/core.mjs",
+      "test/fixtures/text-encoding/",
+      "test/import-text-encoding.test.mjs"
+    ],
+    "acceptance": [
+      "Cover Arabic, CJK, emoji, combining characters, and escaped newlines.",
+      "Assert exact text and correct JSONL record counts.",
+      "Use invented data without real credentials or sessions."
+    ],
+    "validation": "Run fixtures through both formats and the full suite.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-003",
+    "title": "Test interleaved tool calls with reverse-order results",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Extend existing ID correlation tests with overlapping calls to the same tool.",
+    "files": [
+      "lib/core.mjs",
+      "test/fixtures/tool-correlation/",
+      "test/tool-correlation.test.mjs"
+    ],
+    "acceptance": [
+      "Create three overlapping same-tool calls with distinct IDs.",
+      "Assert exact pairs with reverse-order results.",
+      "Verify an unknown result never completes an unrelated call."
+    ],
+    "validation": "Ensure matching by proximity or name would fail the tests.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-004",
+    "title": "Test interrupted sessions and orphan results",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Cover incomplete recordings without fabricating completion; diagnostics are a separate proposal.",
+    "files": [
+      "lib/core.mjs",
+      "test/fixtures/interrupted-sessions/",
+      "test/interrupted-sessions.test.mjs"
+    ],
+    "acceptance": [
+      "Include a complete call, unmatched call, and orphan result.",
+      "Preserve events without invented output/completion times.",
+      "Explain that missing results do not prove a hang."
+    ],
+    "validation": "Verify the orphan cannot complete the unmatched call.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-005",
+    "title": "Document and test supported JSONL framing variations",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Add regression coverage for existing BOM, LF, and CRLF behavior; do not change import policy.",
+    "files": [
+      "lib/core.mjs",
+      "docs/import-formats.md",
+      "test/jsonl-framing.test.mjs"
+    ],
+    "acceptance": [
+      "Test LF, CRLF, leading BOM, and no final newline.",
+      "Assert equivalent normalized events for accepted variants.",
+      "Keep malformed middle records as errors with correct lines."
+    ],
+    "validation": "Run framing tests and compare policy with the importer.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-006",
+    "title": "Document the implemented Claude Code field mapping",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Map implemented fields with fixtures and explicit upstream version uncertainty.",
+    "files": [
+      "lib/core.mjs",
+      "docs/adapters/claude-code.md",
+      "test/fixtures/claude-code/"
+    ],
+    "acceptance": [
+      "Map supported fields to destinations or omissions.",
+      "Reference message, call, and result fixtures.",
+      "State verified versions or mark synthetic unverified samples."
+    ],
+    "validation": "Compare mapping with code and run the cited fixtures.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-007",
+    "title": "Cover blank input and metadata-only sessions",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Record current behavior for recordings without visible events; discuss policy changes separately.",
+    "files": [
+      "lib/core.mjs",
+      "test/fixtures/empty-sessions/",
+      "test/empty-sessions.test.mjs"
+    ],
+    "acceptance": [
+      "Cover whitespace, metadata-only records, and empty events.",
+      "Assert documented outcomes without relying on stack traces.",
+      "Verify no invented messages or calls appear."
+    ],
+    "validation": "Run table-driven tests with an explanation for each outcome.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-008",
+    "title": "Index fixtures and their golden normalized outputs",
+    "area": "imports",
+    "difficulty": "beginner",
+    "summary": "Track expected outputs; privacy provenance belongs to ABB-108.",
+    "files": [
+      "test/fixtures/golden-manifest.json",
+      "test/golden-manifest.test.mjs",
+      "docs/adapter-fixtures.md"
+    ],
+    "acceptance": [
+      "Map inputs to golden outputs or expected error patterns.",
+      "Reject missing files, duplicate paths, and unknown expectation types.",
+      "Run listed cases and compare outputs or documented error patterns."
+    ],
+    "validation": "Show that changed events or missing outputs fail validation.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-009",
+    "title": "[Investigation] Specify a verified Codex log adapter",
+    "area": "adapters",
+    "difficulty": "intermediate",
+    "summary": "Research a version-pinned recording format; deliver reviewed fixtures and mapping before implementation.",
+    "files": [
+      "docs/adapters/codex-proposal.md",
+      "test/fixtures/codex/"
+    ],
+    "acceptance": [
+      "Cite version, public references, and sample-generation steps.",
+      "Cover messages, calls, results, and interrupted recordings.",
+      "Specify detection, mapping, and unsupported cases."
+    ],
+    "validation": "Review samples and reproduce collection without hosted services.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-010",
+    "title": "Implement the approved Codex session adapter",
+    "area": "adapters",
+    "difficulty": "intermediate",
+    "summary": "Implement only the reviewed subset from ABB-009, with explicit version support.",
+    "files": [
+      "lib/core.mjs",
+      "lib/adapters/codex.mjs",
+      "test/codex-adapter.test.mjs"
+    ],
+    "acceptance": [
+      "Normalize approved fixtures and correlate results.",
+      "Apply approved unknown-record policy and validate fields.",
+      "Reject unrelated JSONL with generic message fields."
+    ],
+    "validation": "Run golden, negative, and existing adapter tests.",
+    "dependencies": [
+      "ABB-009"
+    ]
+  },
+  {
+    "id": "ABB-011",
+    "title": "[Investigation] Define an offline OTLP JSON mapping",
+    "area": "adapters",
+    "difficulty": "advanced",
+    "summary": "Investigate real OTLP JSON and pinned GenAI conventions for a narrow offline adapter.",
+    "files": [
+      "docs/adapters/otlp-json-proposal.md",
+      "test/fixtures/otlp-json/"
+    ],
+    "acceptance": [
+      "Document exporter and semantic-convention versions.",
+      "Map IDs, parents, times, tools, and absent content.",
+      "Include multiple resources/scopes and content-free spans."
+    ],
+    "validation": "Review against OTLP references without collector/network dependencies.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-012",
+    "title": "Implement the approved offline OTLP JSON adapter",
+    "area": "adapters",
+    "difficulty": "advanced",
+    "summary": "Import the reviewed subset as supplied data; do not build a collector.",
+    "files": [
+      "lib/adapters/otlp-json.mjs",
+      "lib/core.mjs",
+      "test/otlp-json-adapter.test.mjs"
+    ],
+    "acceptance": [
+      "Traverse approved containers and preserve relationships.",
+      "Convert documented timestamps; leave absent content absent.",
+      "Reject unsupported encodings and avoid reclassifying normal spans."
+    ],
+    "validation": "Run golden fixtures and verify no network requests.",
+    "dependencies": [
+      "ABB-011"
+    ]
+  },
+  {
+    "id": "ABB-013",
+    "title": "[Investigation] Specify an OpenHands event adapter",
+    "area": "adapters",
+    "difficulty": "intermediate",
+    "summary": "Research serialized events from a specific release before proposing support.",
+    "files": [
+      "docs/adapters/openhands-proposal.md",
+      "test/fixtures/openhands/"
+    ],
+    "acceptance": [
+      "Cite release, serialization references, and reproduction steps.",
+      "Provide action/observation fixtures with correlation IDs.",
+      "List omissions and reliable detection evidence."
+    ],
+    "validation": "Trace each mapping to a cited version or fixture.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-014",
+    "title": "Implement the approved OpenHands event adapter",
+    "area": "adapters",
+    "difficulty": "intermediate",
+    "summary": "Support the reviewed subset while distinguishing actions from observed results.",
+    "files": [
+      "lib/adapters/openhands.mjs",
+      "lib/core.mjs",
+      "test/openhands-adapter.test.mjs"
+    ],
+    "acceptance": [
+      "Pair approved actions/results through documented IDs.",
+      "Preserve unmatched observations without invented success.",
+      "Document verified versions and reject incompatible input."
+    ],
+    "validation": "Run complete, interrupted, unknown-event, and unrelated fixtures.",
+    "dependencies": [
+      "ABB-013"
+    ]
+  },
+  {
+    "id": "ABB-015",
+    "title": "[Investigation] Define reproducible LangGraph capture",
+    "area": "adapters",
+    "difficulty": "intermediate",
+    "summary": "Find a documented event interface; do not assume universal file exports.",
+    "files": [
+      "docs/adapters/langgraph-proposal.md",
+      "test/fixtures/langgraph/"
+    ],
+    "acceptance": [
+      "Pin version and cite the public capture API.",
+      "Provide local examples of tools, streams, and nested runs.",
+      "Explain chunk assembly and relationship identifiers."
+    ],
+    "validation": "Reproduce capture without a paid tracing account.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-016",
+    "title": "Implement the approved LangGraph capture adapter",
+    "area": "adapters",
+    "difficulty": "advanced",
+    "summary": "Normalize the agreed format with explicit producer and capture semantics.",
+    "files": [
+      "lib/adapters/langgraph.mjs",
+      "lib/core.mjs",
+      "test/langgraph-adapter.test.mjs"
+    ],
+    "acceptance": [
+      "Assemble chunks without duplicate final content.",
+      "Preserve documented tool pairs and available run relationships.",
+      "Apply agreed incomplete/unknown-event policies."
+    ],
+    "validation": "Compare golden outputs and run existing tests.",
+    "dependencies": [
+      "ABB-015"
+    ]
+  },
+  {
+    "id": "ABB-017",
+    "title": "Publish JSON Schema for normalized trace version 1",
+    "area": "schema",
+    "difficulty": "intermediate",
+    "summary": "Describe the current contract; review discrepancies before changing behavior.",
+    "files": [
+      "schema/trace-v1.schema.json",
+      "lib/core.mjs",
+      "test/schema-contract.test.mjs"
+    ],
+    "acceptance": [
+      "Declare dialect, top-level requirements, and event variants.",
+      "Add valid/invalid examples of types and required values.",
+      "Validate in development without new runtime dependencies."
+    ],
+    "validation": "Validate fixtures and investigate importer disagreements.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-018",
+    "title": "[Investigation] Define schema compatibility rules",
+    "area": "schema",
+    "difficulty": "intermediate",
+    "summary": "Propose evolution rules; implementation follows an accepted decision.",
+    "files": [
+      "docs/decisions/schema-evolution.md",
+      "docs/schema-v1.md"
+    ],
+    "acceptance": [
+      "Specify unknown-version/event/field and missing-field policy.",
+      "Define version bumps and extension namespaces.",
+      "Provide old-reader/new-writer examples and a decision table."
+    ],
+    "validation": "Review against v1 and record unresolved decisions.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-019",
+    "title": "Implement the approved schema compatibility policy",
+    "area": "schema",
+    "difficulty": "intermediate",
+    "summary": "Apply ABB-018 consistently with actionable errors.",
+    "files": [
+      "lib/core.mjs",
+      "schema/trace-v1.schema.json",
+      "test/schema-compatibility.test.mjs"
+    ],
+    "acceptance": [
+      "Test every accepted decision-table row.",
+      "Use stable errors for unsupported versions/required fields.",
+      "Handle unknown fields and event types exactly as specified."
+    ],
+    "validation": "Run schema, compatibility, and future-version fixtures.",
+    "dependencies": [
+      "ABB-017",
+      "ABB-018"
+    ]
+  },
+  {
+    "id": "ABB-020",
+    "title": "Preserve event identity and source provenance",
+    "area": "schema",
+    "difficulty": "advanced",
+    "summary": "Discuss trace-scoped identities and locations, including combined source records, before coding.",
+    "files": [
+      "lib/core.mjs",
+      "docs/decisions/event-provenance.md",
+      "test/event-provenance.test.mjs"
+    ],
+    "acceptance": [
+      "Define deterministic trace-scoped IDs without cross-session collisions.",
+      "Allow multiple source locations for assembled events.",
+      "Handle duplicate source IDs without copying raw payloads."
+    ],
+    "validation": "Reimport for stable IDs and test separate trace namespaces.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-021",
+    "title": "Preserve high-resolution time and clock domains",
+    "area": "schema",
+    "difficulty": "advanced",
+    "summary": "Discuss optional precision metadata under the evolution policy; current millisecond support is not presumed broken.",
+    "files": [
+      "lib/core.mjs",
+      "docs/decisions/event-time.md",
+      "test/event-time-precision.test.mjs"
+    ],
+    "acceptance": [
+      "Preserve adapter-provided precision and clock domain.",
+      "Convert nanoseconds without unsafe Number coercion.",
+      "Use compatible clocks for durations and ingestion order for ties."
+    ],
+    "validation": "Test large integers, ties, missing times, and mixed clocks.",
+    "dependencies": [
+      "ABB-018"
+    ]
+  },
+  {
+    "id": "ABB-022",
+    "title": "[Investigation] Specify nested and delegated runs",
+    "area": "schema",
+    "difficulty": "advanced",
+    "summary": "Propose a hierarchy based on verified examples before changing correlation.",
+    "files": [
+      "docs/decisions/nested-runs.md",
+      "test/fixtures/nested-runs/"
+    ],
+    "acceptance": [
+      "Distinguish nested tool spans from delegated agents.",
+      "Define run-ID, parent, and invocation-ID scopes.",
+      "Specify missing parents, reused IDs, and cycles."
+    ],
+    "validation": "Walk fixtures through the model and prevent cross-run matching.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-023",
+    "title": "Implement the approved nested-run model",
+    "area": "schema",
+    "difficulty": "advanced",
+    "summary": "Implement hierarchy and normalization while retaining flat-trace compatibility.",
+    "files": [
+      "lib/core.mjs",
+      "test/nested-runs.test.mjs",
+      "docs/schema-v1.md"
+    ],
+    "acceptance": [
+      "Normalize fixtures with run-scoped result pairing.",
+      "Preserve parentless children without inventing parents.",
+      "Handle cycles without infinite traversal."
+    ],
+    "validation": "Run flat/nested fixtures with reused invocation IDs.",
+    "dependencies": [
+      "ABB-022"
+    ]
+  },
+  {
+    "id": "ABB-024",
+    "title": "Preserve attachment descriptors in content",
+    "area": "schema",
+    "difficulty": "intermediate",
+    "summary": "Discuss metadata-only attachment fields; never fetch or decode referenced content.",
+    "files": [
+      "lib/core.mjs",
+      "docs/decisions/attachment-descriptors.md",
+      "test/attachment-descriptors.test.mjs"
+    ],
+    "acceptance": [
+      "Define optional media type, declared size, and references.",
+      "Preserve neighboring text in mixed content.",
+      "Never fetch URLs, read referenced files, or decode media."
+    ],
+    "validation": "Instrument mixed-content tests against network/filesystem reads.",
+    "dependencies": [
+      "ABB-018"
+    ]
+  },
+  {
+    "id": "ABB-025",
+    "title": "Expose structured import warnings with stable codes",
+    "area": "imports",
+    "difficulty": "intermediate",
+    "summary": "Evolve warning strings through a reviewed backward-compatibility plan.",
+    "files": [
+      "lib/core.mjs",
+      "docs/import-diagnostics.md",
+      "test/import-diagnostics.test.mjs"
+    ],
+    "acceptance": [
+      "Define code, severity, and source location fields.",
+      "Represent current warnings without changing acceptance policy.",
+      "Document and test compatibility for string consumers."
+    ],
+    "validation": "Assert codes/locations and absence of synthetic secrets.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-026",
+    "title": "Add an incremental JSONL import API",
+    "area": "imports",
+    "difficulty": "advanced",
+    "summary": "Discuss chunked import preserving limits without retaining the whole raw string.",
+    "files": [
+      "lib/core.mjs",
+      "lib/import-stream.mjs",
+      "test/import-stream.test.mjs"
+    ],
+    "acceptance": [
+      "Handle splits inside UTF-8, strings, and separators.",
+      "Match whole-file output and source-line errors.",
+      "Enforce byte/event/depth limits without full buffering."
+    ],
+    "validation": "Split fixtures at many byte positions and test oversized input.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-027",
+    "title": "Support cooperative cancellation of streaming imports",
+    "area": "imports",
+    "difficulty": "intermediate",
+    "summary": "Add AbortSignal to incremental core import; UI controls are separate.",
+    "files": [
+      "lib/import-stream.mjs",
+      "test/import-cancellation.test.mjs",
+      "docs/import-api.md"
+    ],
+    "acceptance": [
+      "An already-aborted signal prevents iteration.",
+      "Mid-import abort stops reads and closes the iterator where possible.",
+      "Never report cancellation as success or leave owned reads pending."
+    ],
+    "validation": "Use a controlled iterator to verify counts and cleanup.",
+    "dependencies": [
+      "ABB-026"
+    ]
+  },
+  {
+    "id": "ABB-028",
+    "title": "Add opt-in duplicate-record handling",
+    "area": "imports",
+    "difficulty": "intermediate",
+    "summary": "Discuss source identity rather than content similarity as the basis for deduplication.",
+    "files": [
+      "lib/core.mjs",
+      "docs/decisions/duplicate-records.md",
+      "test/duplicate-records.test.mjs"
+    ],
+    "acceptance": [
+      "Keep deduplication opt-in with documented eligible IDs.",
+      "Collapse identical identity/payload records and report counts.",
+      "Preserve distinct calls and surface conflicting reused IDs."
+    ],
+    "validation": "Test duplicates, legitimate repeats, same-time events, and conflicts.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-029",
+    "title": "Merge explicitly ordered segments from one session",
+    "area": "imports",
+    "difficulty": "advanced",
+    "summary": "Merge compatible segments using agreed identity/deduplication rules.",
+    "files": [
+      "lib/import-segments.mjs",
+      "lib/core.mjs",
+      "test/import-segments.test.mjs"
+    ],
+    "acceptance": [
+      "Respect explicit order and retain segment provenance.",
+      "Handle overlaps with the approved duplicate policy.",
+      "Pair across segments and reject incompatible session identities."
+    ],
+    "validation": "Compare split/whole traces, overlaps, reversed order, and mixed sessions.",
+    "dependencies": [
+      "ABB-028"
+    ]
+  },
+  {
+    "id": "ABB-030",
+    "title": "Explain adapter detection and reject ambiguity",
+    "area": "imports",
+    "difficulty": "intermediate",
+    "summary": "Discuss format evidence rather than parser order or generic fields.",
+    "files": [
+      "lib/core.mjs",
+      "lib/adapters/index.mjs",
+      "test/adapter-detection.test.mjs"
+    ],
+    "acceptance": [
+      "Require documented evidence from every detector.",
+      "Return ambiguous candidates instead of silently selecting one.",
+      "Validate explicit format selection as well as auto-detection."
+    ],
+    "validation": "Test current/unrelated/truncated input and matching detector stubs.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-031",
+    "title": "Add bounded windows to repeated-call diagnostics",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Separate local bursts from session-wide repetition with optional event/time windows.",
+    "files": [
+      "lib/core.mjs",
+      "test/repeat-windows.test.mjs",
+      "docs/diagnostics/repeated-calls.md"
+    ],
+    "acceptance": [
+      "Define inclusive event/time window boundaries.",
+      "Detect clustered calls without grouping distant calls as a burst.",
+      "Document fallback for absent/incompatible clocks."
+    ],
+    "validation": "Test thresholds, sparse calls, interleaving, and missing times.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-032",
+    "title": "Detect repeated multi-tool cycles with evidence",
+    "area": "diagnostics",
+    "difficulty": "advanced",
+    "summary": "Observe sequence cycles without claiming every repeated workflow is a failure.",
+    "files": [
+      "lib/diagnostics/tool-cycles.mjs",
+      "test/tool-cycles.test.mjs",
+      "docs/diagnostics/tool-cycles.md"
+    ],
+    "acceptance": [
+      "Bound motif length and define repetition threshold.",
+      "Attach exact event ranges with observed-cycle wording.",
+      "Bound work and avoid equivalent nested findings."
+    ],
+    "validation": "Test short cycles, broken/normal workflows, and large inputs.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-033",
+    "title": "Group explicit repeated failures across arguments",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Use conservative failure signatures; successful output discussing errors must not count.",
+    "files": [
+      "lib/diagnostics/repeated-errors.mjs",
+      "test/repeated-errors.test.mjs",
+      "docs/diagnostics/repeated-errors.md"
+    ],
+    "acceptance": [
+      "Document signature and preserve invocation evidence/counts.",
+      "Group varying arguments with the same explicit failure.",
+      "Separate error types and exclude successful error examples."
+    ],
+    "validation": "Test signatures, tool boundaries, and benign output.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-034",
+    "title": "Annotate observed recovery after failed attempts",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Link tool failures to later matching success without asserting overall task success.",
+    "files": [
+      "lib/diagnostics/recovery.mjs",
+      "test/tool-recovery.test.mjs",
+      "docs/diagnostics/recovery.md"
+    ],
+    "acceptance": [
+      "Match conservatively on tool and canonical arguments.",
+      "Link failures to later success without deleting evidence.",
+      "Leave unrelated success and incomplete recordings unresolved."
+    ],
+    "validation": "Test fail/success, repeats, unrelated success, order, and cuts.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-035",
+    "title": "Report calls with no recorded result",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Identify unmatched invocations while preserving uncertainty about partial recordings.",
+    "files": [
+      "lib/diagnostics/unmatched-calls.mjs",
+      "test/unmatched-calls.test.mjs",
+      "docs/diagnostics/unmatched-calls.md"
+    ],
+    "acceptance": [
+      "Use evidence-backed wording such as No result recorded.",
+      "Do not flag calls with results later in the trace.",
+      "Separate orphan results and document partial-trace severity."
+    ],
+    "validation": "Run complete, interrupted, reordered, and orphan fixtures.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-036",
+    "title": "Build a labelled diagnostic evaluation corpus",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Measure false positives and missed findings alongside benign polling and retries.",
+    "files": [
+      "test/diagnostic-corpus/",
+      "scripts/evaluate-diagnostics.mjs",
+      "docs/diagnostic-evaluation.md"
+    ],
+    "acceptance": [
+      "Annotate expected rule IDs, evidence, and no-finding cases.",
+      "Report true/false positives and false negatives per rule.",
+      "Include positive and benign cases for every measured rule."
+    ],
+    "validation": "Show that added/removed findings change the evaluation counts.",
+    "dependencies": [
+      "ABB-040"
+    ]
+  },
+  {
+    "id": "ABB-037",
+    "title": "Introduce a pure diagnostic-rule interface",
+    "area": "diagnostics",
+    "difficulty": "advanced",
+    "summary": "Discuss a rule contract; never load executable plugins from trace content.",
+    "files": [
+      "lib/diagnostics/index.mjs",
+      "lib/core.mjs",
+      "test/diagnostic-rules.test.mjs"
+    ],
+    "acceptance": [
+      "Define stable IDs and the evidence input/output contract.",
+      "Migrate repeated-call detection without changing defaults.",
+      "Test determinism and immutability with a sample rule."
+    ],
+    "validation": "Compare existing fixtures and valid/malformed rule outputs.",
+    "dependencies": [
+      "ABB-040"
+    ]
+  },
+  {
+    "id": "ABB-038",
+    "title": "Extract a minimal evidence slice for a finding",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Return evidence with bounded context and mark the trace partial; leave UI separate.",
+    "files": [
+      "lib/diagnostics/evidence-slice.mjs",
+      "test/evidence-slice.test.mjs",
+      "docs/diagnostic-evidence.md"
+    ],
+    "acceptance": [
+      "Include referenced events and necessary existing call/result partners.",
+      "Preserve IDs and mark omitted context explicitly.",
+      "Honor context bounds without mutating the original."
+    ],
+    "validation": "Test distant evidence, missing partners, limits, and reimport.",
+    "dependencies": [
+      "ABB-020",
+      "ABB-040"
+    ]
+  },
+  {
+    "id": "ABB-039",
+    "title": "Support scoped diagnostic suppressions with reasons",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Discuss explicit rule/tool/run suppressions with visible audit metadata.",
+    "files": [
+      "lib/diagnostics/suppressions.mjs",
+      "test/diagnostic-suppressions.test.mjs",
+      "docs/diagnostic-configuration.md"
+    ],
+    "acceptance": [
+      "Require exact rule IDs, valid scopes, and a reason.",
+      "Reject unknown IDs and malformed selectors.",
+      "Record suppressed findings/reasons without changing source events."
+    ],
+    "validation": "Test global/scoped/nonmatching suppression and invalid config.",
+    "dependencies": [
+      "ABB-037"
+    ]
+  },
+  {
+    "id": "ABB-040",
+    "title": "Attach structured evidence references to findings",
+    "area": "diagnostics",
+    "difficulty": "intermediate",
+    "summary": "Discuss stable finding metadata distinguishing observation and inference without raw payload copies.",
+    "files": [
+      "lib/core.mjs",
+      "docs/diagnostic-evidence.md",
+      "test/diagnostic-evidence.test.mjs"
+    ],
+    "acceptance": [
+      "Include rule ID, explanation, and supporting event IDs.",
+      "Document inference and uncertainty for incomplete recordings.",
+      "Validate targets and exclude raw argument/result payloads."
+    ],
+    "validation": "Test repeat evidence, dangling references, and deterministic order.",
+    "dependencies": [
+      "ABB-020"
+    ]
+  },
+  {
+    "id": "ABB-041",
+    "title": "Replace loaded sessions through drag-and-drop",
+    "area": "viewer",
+    "difficulty": "beginner",
+    "summary": "Extend drop import to loaded sessions and handle multiple dropped files explicitly.",
+    "files": [
+      "web/app.mjs",
+      "web/index.html",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Replace a loaded session through existing parsing and redaction.",
+      "Keep the current session intact until replacement imports successfully.",
+      "Reject multiple files clearly and prevent browser navigation."
+    ],
+    "validation": "Test replacement, parse failure, multiple files, and keyboard picker access.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-042",
+    "title": "Import a session from pasted transcript text",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Inspect copied JSONL or normalized JSON without creating a file.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Parse pasted text with the existing parser and default redaction.",
+      "Keep invalid input editable and restore focus when the dialog closes.",
+      "Clear text after success or cancellation; never persist transcript contents."
+    ],
+    "validation": "Exercise valid/invalid input, keyboard dialog use, redaction, and browser storage.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-043",
+    "title": "Toggle absolute and elapsed event timestamps",
+    "area": "viewer",
+    "difficulty": "beginner",
+    "summary": "Offer timestamp presentation choices without changing event order or exported data.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Switch between absolute timestamps and elapsed time from the earliest valid event.",
+      "Show unavailable for missing times instead of invented elapsed values.",
+      "Preserve filters, selection, and exported timestamps when switching."
+    ],
+    "validation": "Check valid, missing, invalid, and out-of-order timestamps in both modes.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-044",
+    "title": "Add removable active filter chips",
+    "area": "viewer",
+    "difficulty": "beginner",
+    "summary": "Make active search, tool, and error filters visible beside the timeline.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Render a labeled removal button for each active filter.",
+      "Removing a chip changes only its filter and refreshes the event count.",
+      "Clear-all resets filters while preserving the session and valid selection."
+    ],
+    "validation": "Combine filters, remove them in different orders, and inspect counts and focus.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-045",
+    "title": "Add discoverable viewer keyboard shortcuts",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Provide documented shortcuts for search, import, and returning to a selected event.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide a help button and a dialog listing every shortcut.",
+      "Ignore editable fields and preserve browser-reserved shortcuts.",
+      "Support Escape and focus restoration when closing help."
+    ],
+    "validation": "Check shortcuts from the timeline, editable fields, details, and help dialog.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-046",
+    "title": "Search within selected tool results",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Find text inside long sanitized outputs without changing timeline filters.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide a details query, match count, and previous/next controls.",
+      "Highlight matches through safe DOM operations without interpreting HTML.",
+      "Reset match navigation on event changes; leave timeline filters unchanged."
+    ],
+    "validation": "Check multiline matches, no matches, repeated text, hostile markup, and keyboard use.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-047",
+    "title": "Bookmark events during an investigation",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Add temporary bookmarks for important calls during the current review.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Add, remove, and navigate bookmarks from an accessible list.",
+      "Keep identities stable across filtering and incremental rendering.",
+      "Remove bookmarks on session replacement or clear; do not persist them."
+    ],
+    "validation": "Bookmark later-page events, filter, revisit, and replace the session.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-048",
+    "title": "Run browser imports in a cancellable worker",
+    "area": "viewer",
+    "difficulty": "advanced",
+    "summary": "Keep large imports responsive while preserving parsing and redaction.",
+    "files": [
+      "web/app.mjs",
+      "web/import-worker.mjs",
+      "web/index.html",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Return only sanitized session data from worker parsing.",
+      "Cancel an import without discarding the previous session.",
+      "Ignore stale worker responses after cancellation or replacement."
+    ],
+    "validation": "Check large imports, cancellation, rapid replacements, errors, and unavailable workers.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-049",
+    "title": "Add line navigation to tool results",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Provide optional line numbers and jump-to-line navigation.",
+    "files": [
+      "web/app.mjs",
+      "web/index.html",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Line numbers follow logical newlines and do not enter copied text.",
+      "Validate a labeled jump control and reveal the requested line.",
+      "Handle empty output, trailing newlines, and event changes consistently."
+    ],
+    "validation": "Check multiline fixtures, trailing blanks, invalid line numbers, and copying.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-050",
+    "title": "Add a wrap-lines preference for tool details",
+    "area": "viewer",
+    "difficulty": "beginner",
+    "summary": "Choose wrapped or horizontally scrollable arguments and results.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide a labeled wrap control for arguments and results.",
+      "Apply it across event changes; persist only the preference.",
+      "Copy and export exact sanitized text regardless of wrapping."
+    ],
+    "validation": "Inspect long commands, URLs, JSON, and narrow layouts; compare copied text.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-051",
+    "title": "Add a grouped-by-tool exploration view",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Offer tool groups alongside the chronological timeline.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Switch views while retaining original order within each tool group.",
+      "Show filtered group counts and keyboard-accessible expand controls.",
+      "Preserve event identity and details when switching views."
+    ],
+    "validation": "Use interleaved tools and combined filters to verify counts, order, and selection.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-052",
+    "title": "Filter events by elapsed time range",
+    "area": "viewer",
+    "difficulty": "intermediate",
+    "summary": "Focus investigation on a window when usable timestamps exist.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide accessible start/end controls with inclusive boundaries.",
+      "Offer an explicit choice to include untimestamped events.",
+      "Explain unavailable ranges and reject invalid bounds."
+    ],
+    "validation": "Check boundary events, absent times, reversed bounds, and combined filters.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-053",
+    "title": "Introduce a high-contrast viewer theme",
+    "area": "accessibility",
+    "difficulty": "beginner",
+    "summary": "Provide a high-contrast preference for dense timelines and output.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Add a labeled preference without storing session contents.",
+      "Meet 4.5:1 text and 3:1 control-boundary/focus contrast.",
+      "Retain non-color cues and usable controls in forced-colors mode."
+    ],
+    "validation": "Measure contrast and inspect focused, selected, and failed states.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-054",
+    "title": "Add adjustable reading text size",
+    "area": "accessibility",
+    "difficulty": "beginner",
+    "summary": "Allow larger interface and transcript text independently of browser zoom.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Offer 100%, 125%, 150%, and 200% settings plus reset.",
+      "Keep controls, labels, and details usable without clipped text.",
+      "Persist only the preference and preserve native browser zoom."
+    ],
+    "validation": "Review narrow/wide layouts at each size, including enlarged browser zoom.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-055",
+    "title": "Debounce accessible filter-result announcements",
+    "area": "accessibility",
+    "difficulty": "intermediate",
+    "summary": "Extend the existing live status region with concise filter announcements.",
+    "files": [
+      "web/app.mjs",
+      "test/browser/filter-announcements.test.mjs"
+    ],
+    "acceptance": [
+      "Announce final matching counts after a debounce.",
+      "Cancel stale announcements when imports, clearing, or newer filters intervene.",
+      "Keep focus unchanged and exclude transcript text from announcements."
+    ],
+    "validation": "Check rapid typing, zero results, importing, and clearing with a screen reader.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-056",
+    "title": "Navigate timeline events efficiently by keyboard",
+    "area": "accessibility",
+    "difficulty": "intermediate",
+    "summary": "Add navigation across incremental timeline batches.",
+    "files": [
+      "web/app.mjs",
+      "web/index.html",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Support documented arrow and boundary keys within the event navigator.",
+      "Load the next batch when necessary and keep focus visible.",
+      "Choose predictable focus after filtering; ignore editable fields."
+    ],
+    "validation": "Navigate several batches and filter out the focused event without a mouse.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-057",
+    "title": "Document a screen-reader review walkthrough",
+    "area": "accessibility",
+    "difficulty": "beginner",
+    "summary": "Create a reproducible accessibility guide using sanitized fixtures.",
+    "files": [
+      "docs/accessibility-review.md",
+      "CONTRIBUTING.md"
+    ],
+    "acceptance": [
+      "Cover import, filters, details, exports, errors, and clearing.",
+      "Document one screen-reader/browser pair and expected focus changes.",
+      "Include a versioned results template without claiming unperformed checks."
+    ],
+    "validation": "Execute the walkthrough with the documented tools and attach actual results.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-058",
+    "title": "Test the keyboard-only review workflow",
+    "area": "accessibility",
+    "difficulty": "intermediate",
+    "summary": "Protect the main investigation workflow through visible browser controls.",
+    "files": [
+      "test/browser/keyboard-workflow.test.mjs",
+      "test/fixtures/accessibility-session.json",
+      "package.json"
+    ],
+    "acceptance": [
+      "Add a development-only command covering import, filters, details, and clearing.",
+      "Assert focus and event selection beyond the first timeline batch.",
+      "Identify failed interactions; add no production runtime dependency."
+    ],
+    "validation": "Run the suite and verify removing a required interaction causes failure.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-059",
+    "title": "Provide a single-column reading preference",
+    "area": "accessibility",
+    "difficulty": "beginner",
+    "summary": "Let users request a linear reading layout on wide screens.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide a documented single-column order for controls and content.",
+      "Preserve selection and focus without duplicate accessible controls.",
+      "Persist only the layout preference; support enlarged text."
+    ],
+    "validation": "Switch layouts during keyboard review and repeat with 200% text.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-060",
+    "title": "Add an accessible structured JSON inspector",
+    "area": "accessibility",
+    "difficulty": "advanced",
+    "summary": "Offer a navigable tree for sanitized objects and arrays.",
+    "files": [
+      "web/json-inspector.mjs",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Implement tree navigation and correct expanded, level, and selection semantics.",
+      "Render keys/values safely; preserve payloads when switching to text.",
+      "Bound deep/large expansions and disclose fallback without silent data loss."
+    ],
+    "validation": "Check nested arrays, nulls, hostile keys, and large payloads with assistive tools.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-061",
+    "title": "Introduce a deterministic comparison model",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Create a pure foundation for comparing normalized sanitized sessions.",
+    "files": [
+      "lib/compare.mjs",
+      "test/compare.test.mjs"
+    ],
+    "acceptance": [
+      "Return call, failure, and repeat counts with signed right-minus-left deltas.",
+      "Do not mutate inputs or classify unknown results as success/failure.",
+      "Handle empty sessions deterministically without timestamps."
+    ],
+    "validation": "Test empty, identical, unequal, incomplete sessions and immutability.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-062",
+    "title": "Load two sessions into a comparison workspace",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Add labeled baseline and candidate imports with existing sanitization.",
+    "files": [
+      "web/index.html",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Import both sides independently through parsing and redaction.",
+      "Keep the other session intact on failure and identify the failing side.",
+      "Label both sessions, allow replacement, and clear both on reset."
+    ],
+    "validation": "Import valid/invalid files in both orders, replace one, and verify masking.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-063",
+    "title": "Show signed comparison summary metrics",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Present observed differences without unsupported quality judgments.",
+    "files": [
+      "web/app.mjs",
+      "web/index.html",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Display baseline, candidate, and signed differences from the shared model.",
+      "State direction without treating every count decrease as improvement.",
+      "Render empty/identical sessions with textual equivalents for indicators."
+    ],
+    "validation": "Compare known counts in both directions and reconcile displayed values.",
+    "dependencies": [
+      "ABB-061",
+      "ABB-062"
+    ]
+  },
+  {
+    "id": "ABB-064",
+    "title": "Align tool-call sequences across sessions",
+    "area": "comparison",
+    "difficulty": "advanced",
+    "summary": "Expose matched and one-sided calls with deterministic bounded alignment.",
+    "files": [
+      "lib/compare.mjs",
+      "test/compare-alignment.test.mjs"
+    ],
+    "acceptance": [
+      "Use documented tool/input matching and preserve both call orders.",
+      "Break repeat ties deterministically; mark masked-input matches as ambiguous.",
+      "Enforce a work limit with an explicit fallback result."
+    ],
+    "validation": "Test insertion, deletion, reordering, repeats, key order, masking, and limits.",
+    "dependencies": [
+      "ABB-061"
+    ]
+  },
+  {
+    "id": "ABB-065",
+    "title": "Render an aligned comparison timeline",
+    "area": "comparison",
+    "difficulty": "advanced",
+    "summary": "Present corresponding calls with explicit one-sided gaps.",
+    "files": [
+      "web/comparison-view.mjs",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Render matched, baseline-only, and candidate-only rows from the model.",
+      "Open correct details without mixing event identities between sessions.",
+      "Bound rendered rows and retain side labels on narrow screens."
+    ],
+    "validation": "Review changed-call fixtures at narrow/wide sizes and across render batches.",
+    "dependencies": [
+      "ABB-062",
+      "ABB-064"
+    ]
+  },
+  {
+    "id": "ABB-066",
+    "title": "Show differences between aligned tool results",
+    "area": "comparison",
+    "difficulty": "advanced",
+    "summary": "Add bounded line differences for sanitized aligned outputs.",
+    "files": [
+      "lib/text-diff.mjs",
+      "web/comparison-view.mjs",
+      "web/style.css",
+      "test/text-diff.test.mjs"
+    ],
+    "acceptance": [
+      "Mark unchanged, added, and removed lines using text and color.",
+      "Distinguish absent, empty, and identical results.",
+      "Render safe text and fall back explicitly when size limits are reached."
+    ],
+    "validation": "Test repeated lines, trailing newlines, absent output, markup, and limit fallback.",
+    "dependencies": [
+      "ABB-064",
+      "ABB-065"
+    ]
+  },
+  {
+    "id": "ABB-067",
+    "title": "Compare observed session time spans",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Compare timestamp-derived spans while exposing incomplete coverage.",
+    "files": [
+      "lib/compare.mjs",
+      "web/comparison-view.mjs",
+      "test/compare-timing.test.mjs"
+    ],
+    "acceptance": [
+      "Use earliest and latest valid timestamps for observed spans.",
+      "Show coverage and withhold unsupported percentages or durations.",
+      "Avoid negative spans and claims about model compute time or cost."
+    ],
+    "validation": "Check complete, partial, absent, out-of-order, and zero-span fixtures.",
+    "dependencies": [
+      "ABB-061",
+      "ABB-062"
+    ]
+  },
+  {
+    "id": "ABB-068",
+    "title": "Compare per-tool call frequencies",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Show which tools account for differences in call counts.",
+    "files": [
+      "lib/compare.mjs",
+      "web/comparison-view.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "List both counts and signed differences for the union of tool names.",
+      "Use a shared bar scale and provide all values as text.",
+      "Sort deterministically, retain zero sides, and escape tool names."
+    ],
+    "validation": "Compare overlapping/disjoint tools, ties, long names, and hostile labels.",
+    "dependencies": [
+      "ABB-061",
+      "ABB-062"
+    ]
+  },
+  {
+    "id": "ABB-069",
+    "title": "Filter comparison rows by difference type",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Focus on added/removed calls, changed outputs, or changed status.",
+    "files": [
+      "web/comparison-view.mjs",
+      "web/app.mjs",
+      "web/style.css"
+    ],
+    "acceptance": [
+      "Provide documented filters for one-sided calls and output/status changes.",
+      "Compute counts over the whole alignment, not only the rendered batch.",
+      "Reset restores alignment order and predictable selection."
+    ],
+    "validation": "Combine difference types and verify counts and focus across batches.",
+    "dependencies": [
+      "ABB-065",
+      "ABB-066"
+    ]
+  },
+  {
+    "id": "ABB-070",
+    "title": "Swap baseline and candidate sessions",
+    "area": "comparison",
+    "difficulty": "beginner",
+    "summary": "Reverse a comparison without reimporting local files.",
+    "files": [
+      "web/app.mjs",
+      "web/comparison-view.mjs",
+      "web/index.html"
+    ],
+    "acceptance": [
+      "Add a labeled swap button without reimporting files.",
+      "Recompute signed differences and one-sided states.",
+      "Swapping twice restores the original and keeps focus on the control."
+    ],
+    "validation": "Swap unequal sessions twice; check labels, signs, unmatched rows, and focus.",
+    "dependencies": [
+      "ABB-062",
+      "ABB-063",
+      "ABB-065"
+    ]
+  },
+  {
+    "id": "ABB-071",
+    "title": "Export an offline HTML comparison report",
+    "area": "comparison",
+    "difficulty": "advanced",
+    "summary": "Produce a portable script-free comparison of sanitized sessions.",
+    "files": [
+      "lib/comparison-report.mjs",
+      "web/comparison-view.mjs",
+      "test/comparison-report.test.mjs"
+    ],
+    "acceptance": [
+      "Include labeled summaries, alignment rows, and bounded result differences.",
+      "Work offline without scripts or external assets under restrictive CSP.",
+      "Escape session text and disclose omitted oversized differences."
+    ],
+    "validation": "Open offline; check hostile labels, missing times, empty sessions, and large diffs.",
+    "dependencies": [
+      "ABB-063",
+      "ABB-065",
+      "ABB-066"
+    ]
+  },
+  {
+    "id": "ABB-072",
+    "title": "Export versioned comparison JSON",
+    "area": "comparison",
+    "difficulty": "intermediate",
+    "summary": "Provide a documented artifact for reproducible comparison analysis.",
+    "files": [
+      "lib/compare.mjs",
+      "web/comparison-view.mjs",
+      "docs/comparison-format.md",
+      "test/comparison-export.test.mjs"
+    ],
+    "acceptance": [
+      "Document version, identifiers, metrics, and alignment references.",
+      "Resolve references against sanitized data without raw buffers/browser state.",
+      "Make unchanged inputs deterministic except documented optional export time."
+    ],
+    "validation": "Parse exports independently; verify references, determinism, and redaction.",
+    "dependencies": [
+      "ABB-061",
+      "ABB-064"
+    ]
+  },
+  {
+    "id": "ABB-073",
+    "title": "Chart event density in HTML reports",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Show timestamped activity concentration using bounded offline SVG.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-charts.test.mjs"
+    ],
+    "acceptance": [
+      "Assign valid times to equal-width bins with a bounded bar count.",
+      "Handle missing times and zero spans without inventing placement.",
+      "Provide SVG title/description and an equivalent count table."
+    ],
+    "validation": "Verify boundaries, missing/equal times, totals, and offline CSP.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-074",
+    "title": "Visualize report tool-call frequencies",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Add an offline bar chart showing the most-used tools.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-charts.test.mjs"
+    ],
+    "acceptance": [
+      "Order counts deterministically with shared scale and numeric values.",
+      "Group excess tools as Other while preserving all counts in a table.",
+      "Escape labels and make the chart understandable without color."
+    ],
+    "validation": "Check totals, ties, display limits, hostile labels, and no-call sessions.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-075",
+    "title": "Chart reported failures by tool name",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Show explicit failures and unresolved call states separately.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-charts.test.mjs"
+    ],
+    "acceptance": [
+      "Group failures by tool using documented normalized status semantics.",
+      "Count unknown/absent results separately from success.",
+      "Provide a zero-failure state and a script-free equivalent table."
+    ],
+    "validation": "Reconcile success, failure, unresolved, and orphan-result fixture counts.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-076",
+    "title": "Visualize repeated-call positions in reports",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Show where repeat findings occur without requiring timestamps.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-charts.test.mjs"
+    ],
+    "acceptance": [
+      "Mark actual member calls in a sequence-position strip.",
+      "Preserve interleaved positions without claiming repetitions prove loops.",
+      "List positions as text and disclose display limits without altering totals."
+    ],
+    "validation": "Check contiguous/interleaved repeats, multiple groups, missing times, and limits.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-077",
+    "title": "Expand long-report print regression coverage",
+    "area": "reports",
+    "difficulty": "beginner",
+    "summary": "Extend basic print support for long payloads and reports across engines.",
+    "files": [
+      "lib/report.mjs",
+      "docs/reports.md",
+      "test/fixtures/long-report-session.json"
+    ],
+    "acceptance": [
+      "Add a synthetic fixture with long outputs, wide tokens, and multiple pages.",
+      "Fix observed clipping/page breaks while preserving existing print support.",
+      "Document PDF checks in two engines with actual results and limitations."
+    ],
+    "validation": "Generate PDFs in two engines; inspect long blocks and monochrome cues.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-078",
+    "title": "Add stable report navigation anchors",
+    "area": "reports",
+    "difficulty": "beginner",
+    "summary": "Provide contents and finding-to-event links in long reports.",
+    "files": [
+      "lib/report.mjs",
+      "test/report-navigation.test.mjs"
+    ],
+    "acceptance": [
+      "Link major sections using unique deterministic anchors.",
+      "Link finding evidence to safe event-position identifiers.",
+      "Support descriptive links and offline fragments without scripts."
+    ],
+    "validation": "Verify targets, unique IDs, and fragment navigation in exported files.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-079",
+    "title": "Export report charts as standalone SVG",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Reuse sanitized charts in documentation and issue discussions.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-chart-export.test.mjs"
+    ],
+    "acceptance": [
+      "Offer offline SVG downloads with viewBox and embedded styling.",
+      "Exclude scripts, external references, raw buffers, and unsafe labels.",
+      "Retain accessible titles without report scripts or CSP relaxation."
+    ],
+    "validation": "Download under CSP, open SVGs, and inspect adversarial labels.",
+    "dependencies": [
+      "ABB-073",
+      "ABB-074",
+      "ABB-075"
+    ]
+  },
+  {
+    "id": "ABB-080",
+    "title": "Visualize gaps between timestamped events",
+    "area": "reports",
+    "difficulty": "intermediate",
+    "summary": "Highlight observed event gaps without assigning unsupported causes.",
+    "files": [
+      "lib/report-charts.mjs",
+      "lib/report.mjs",
+      "test/report-time-gaps.test.mjs"
+    ],
+    "acceptance": [
+      "Compute gaps only between adjacent valid nondecreasing times.",
+      "Treat absent/backward times as unavailable intervals.",
+      "Show largest gaps in bounded SVG/table without claims about model latency."
+    ],
+    "validation": "Test known gaps, ties, missing/backward times, and single-event sessions.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-081",
+    "title": "Analyze multiple explicitly named session files",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Generate separate reports for explicit paths without merging or discovering other logs.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-batch.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Create one report per named file without recursive discovery.",
+      "Give duplicate basenames stable unique names; do not change inputs.",
+      "Return nonzero for failures while retaining successful reports."
+    ],
+    "validation": "Test two inputs, duplicate names, invalid input, and source hashes.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-082",
+    "title": "Handle closed output pipes without stack traces",
+    "area": "cli",
+    "difficulty": "beginner",
+    "summary": "Handle downstream stdout closure while retaining unrelated output errors.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-pipes.test.mjs"
+    ],
+    "acceptance": [
+      "Document a clean EPIPE exit policy.",
+      "Print neither stack traces nor session content on broken pipes.",
+      "Keep other output failures visible with nonzero status."
+    ],
+    "validation": "Close a subprocess pipe early and separately inject a non-EPIPE error.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-083",
+    "title": "Expose machine-readable version information",
+    "area": "cli",
+    "difficulty": "beginner",
+    "summary": "Let integrations identify package and Node versions without parsing prose.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-version.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "A --json version command returns package name/version and Node version.",
+      "Read version from package.json instead of duplicating it.",
+      "Exclude username, hostname, working directory, and environment."
+    ],
+    "validation": "Parse subprocess output and compare package metadata.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-084",
+    "title": "Provide Bash and Zsh command completions",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Discover commands and options through local completions.",
+    "files": [
+      "contrib/completions/",
+      "scripts/check-completions.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Complete public commands, flags, and format values in both shells.",
+      "Never open or analyze session contents during completion.",
+      "Detect obsolete options with a consistency check."
+    ],
+    "validation": "Run checks and shell recipes with spaced paths.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-085",
+    "title": "Add opt-in exit gates for diagnostic codes",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Fail CI on selected stable findings after successfully writing the report.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-exit-policy.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Accept repeatable --fail-on codes from ABB-040.",
+      "Set documented status after successful report generation.",
+      "Reject unknown codes early; retain write-error precedence."
+    ],
+    "validation": "Test matches, no match, multiple/unknown codes, and output errors.",
+    "dependencies": [
+      "ABB-040"
+    ]
+  },
+  {
+    "id": "ABB-086",
+    "title": "Write reports atomically without replacing files",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Avoid partial output while preserving no-overwrite defaults and concurrent-write safety.",
+    "files": [
+      "lib/output.mjs",
+      "bin/agent-black-box.mjs",
+      "test/cli-atomic-output.test.mjs"
+    ],
+    "acceptance": [
+      "Stage complete reports in the destination directory.",
+      "Atomic default publication never replaces an existing destination.",
+      "Failures/losing writers preserve existing bytes and remove staging files."
+    ],
+    "validation": "Inject write failures and race two writers for one destination.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-087",
+    "title": "Add an explicit --force report-replacement option",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Allow deliberate report replacement while preserving safe default writes.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "lib/output.mjs",
+      "test/cli-overwrite.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Keep existing files protected unless --force is set.",
+      "Use completed staged output; failure preserves the old report.",
+      "Reject directories even with --force."
+    ],
+    "validation": "Test absent/protected files, forced output, directories, and failed writes.",
+    "dependencies": [
+      "ABB-086"
+    ]
+  },
+  {
+    "id": "ABB-088",
+    "title": "Support --output - for explicit stdout routing",
+    "area": "cli",
+    "difficulty": "beginner",
+    "summary": "Name stdout as a destination for portable wrapper scripts.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-stdout.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Route JSON and HTML to stdout with --output -.",
+      "Never create a file named - for this destination.",
+      "Keep status/error messages outside the report stream."
+    ],
+    "validation": "Capture both formats and streams; inspect the working directory.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-089",
+    "title": "Add quiet mode for scheduled commands",
+    "area": "cli",
+    "difficulty": "beginner",
+    "summary": "Suppress routine status messages while retaining reports and failures.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-quiet.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "--quiet suppresses routine success and startup messages.",
+      "Keep report bytes identical with and without the option.",
+      "Keep operational/argument errors visible and nonzero."
+    ],
+    "validation": "Compare success, startup, missing-input, and invalid-argument streams.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-090",
+    "title": "Allow the local server to select an available port",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Support port zero through the CLI while retaining loopback-only binding.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-server-port.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "serve --port 0 requests an available OS port.",
+      "Print the actual bound localhost URL.",
+      "Support two concurrently reachable port-zero instances."
+    ],
+    "validation": "Start two servers, request assets, and terminate both.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-091",
+    "title": "Bound shutdown with stale client connections",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Prevent incomplete HTTP requests from keeping interrupted servers alive.",
+    "files": [
+      "bin/agent-black-box.mjs",
+      "test/cli-server-shutdown.test.mjs",
+      "docs/cli.md"
+    ],
+    "acceptance": [
+      "Exit within a documented grace period despite incomplete requests.",
+      "Close remaining sockets at deadline and release the port.",
+      "Keep no-client shutdown clean on supported platforms/signals."
+    ],
+    "validation": "Hold partial-header sockets, signal the server, and enforce a timeout.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-092",
+    "title": "Add reviewed golden snapshots for CLI reports",
+    "area": "cli",
+    "difficulty": "intermediate",
+    "summary": "Catch output changes using small synthetic fixtures and narrow normalization.",
+    "files": [
+      "test/cli-snapshots.test.mjs",
+      "test/snapshots/",
+      "scripts/update-cli-snapshots.mjs",
+      "docs/testing.md"
+    ],
+    "acceptance": [
+      "Snapshot JSON, HTML, and one documented failure.",
+      "Normalize only documented platform/path differences.",
+      "Require explicit snapshot updates outside ordinary tests."
+    ],
+    "validation": "Run OS matrix and demonstrate a readable changed-field failure.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-093",
+    "title": "Provide a GitHub composite Action for analysis",
+    "area": "integrations",
+    "difficulty": "advanced",
+    "summary": "Analyze files already in an Actions workspace without uploading sessions/reports.",
+    "files": [
+      "action.yml",
+      "docs/integrations/github-actions.md",
+      "test/action-contract.test.mjs"
+    ],
+    "acceptance": [
+      "Accept input, format, and output via safely passed arguments.",
+      "Expose completed report path and propagate failures.",
+      "Use read-only example permissions without uploads or transmission."
+    ],
+    "validation": "Validate contract and run synthetic paths including spaces.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-094",
+    "title": "Add an opt-in aggregate GitHub Actions summary",
+    "area": "integrations",
+    "difficulty": "intermediate",
+    "summary": "Show completion/counts in the run page without raw session content.",
+    "files": [
+      "action.yml",
+      "scripts/write-action-summary.mjs",
+      "test/action-summary.test.mjs",
+      "docs/integrations/github-actions.md"
+    ],
+    "acceptance": [
+      "Disable writing to GITHUB_STEP_SUMMARY by default.",
+      "Include only counts and diagnostic identifiers, excluding filenames.",
+      "Escape permitted dynamic text for Markdown."
+    ],
+    "validation": "Test secret canaries and Markdown payloads in report inputs.",
+    "dependencies": [
+      "ABB-093",
+      "ABB-040"
+    ]
+  },
+  {
+    "id": "ABB-095",
+    "title": "Provide an opt-in local pre-commit integration",
+    "area": "integrations",
+    "difficulty": "intermediate",
+    "summary": "Analyze explicitly selected fixtures without discovering or modifying other logs.",
+    "files": [
+      ".pre-commit-hooks.yaml",
+      "scripts/pre-commit-analyze.mjs",
+      "test/pre-commit-wrapper.test.mjs",
+      "docs/integrations/pre-commit.md"
+    ],
+    "acceptance": [
+      "Analyze only framework-supplied paths without shell interpolation.",
+      "Require an explicit files filter and forbid automatic report commits.",
+      "Propagate failures while leaving inputs unchanged."
+    ],
+    "validation": "Test multiple/spaced paths, invalid input, and source hashes.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-096",
+    "title": "Provide VS Code tasks for selected sessions",
+    "area": "integrations",
+    "difficulty": "beginner",
+    "summary": "Offer editor integration through local process tasks, without an extension.",
+    "files": [
+      "examples/integrations/vscode/tasks.json",
+      "docs/integrations/vscode.md"
+    ],
+    "acceptance": [
+      "Separate tasks analyze a selected file and start the viewer.",
+      "Pass filenames as arguments without shell-string interpolation.",
+      "Document a synthetic walkthrough and output paths."
+    ],
+    "validation": "Parse tasks JSON and run both in a spaced workspace path.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-097",
+    "title": "Add a runnable npm-script integration example",
+    "area": "integrations",
+    "difficulty": "beginner",
+    "summary": "Show application repositories how to invoke tested package scripts.",
+    "files": [
+      "examples/integrations/npm-scripts/package.json",
+      "examples/integrations/npm-scripts/session.jsonl",
+      "examples/integrations/npm-scripts/README.md"
+    ],
+    "acceptance": [
+      "Provide separate JSON/HTML scripts using a synthetic session.",
+      "Forward arguments after npm -- including custom output paths.",
+      "Ignore generated files; include no real session data."
+    ],
+    "validation": "Run both scripts against the local package and verify outputs.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-098",
+    "title": "Document tested Bash and PowerShell recipes",
+    "area": "integrations",
+    "difficulty": "beginner",
+    "summary": "Explain verified filename, output, and shell argument handling.",
+    "files": [
+      "docs/cli-shell-recipes.md",
+      "examples/shell-recipes/"
+    ],
+    "acceptance": [
+      "Cover input/output paths with spaces and Unicode in both shells.",
+      "Explain argument and redirection differences affecting commands.",
+      "Name expected output and verification for each recipe."
+    ],
+    "validation": "Run Bash/Linux and PowerShell/Windows; record actual versions.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-099",
+    "title": "Provide a minimal container for offline analysis",
+    "area": "integrations",
+    "difficulty": "intermediate",
+    "summary": "Offer non-root CLI analysis with read-only inputs and no runtime networking.",
+    "files": [
+      "Dockerfile",
+      ".dockerignore",
+      "scripts/test-container.mjs",
+      "docs/integrations/container.md"
+    ],
+    "acceptance": [
+      "Run non-root and include only runtime files.",
+      "Succeed with --network none and read-only input mounts.",
+      "Write to a separate mount; retain input hashes."
+    ],
+    "validation": "Build and run a synthetic fixture with networking disabled.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-100",
+    "title": "Add a minimal development-container configuration",
+    "area": "integrations",
+    "difficulty": "intermediate",
+    "summary": "Provide supported Node without requiring contributor account credentials.",
+    "files": [
+      ".devcontainer/devcontainer.json",
+      ".devcontainer/Dockerfile",
+      "docs/contributing-devcontainer.md"
+    ],
+    "acceptance": [
+      "Use supported Node and a non-root workspace user.",
+      "Run clean-checkout tests without tokens.",
+      "Document local port forwarding without credential-directory mounts."
+    ],
+    "validation": "Open fresh checkout, run tests, and inspect forwarded viewer.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-101",
+    "title": "Generate a dependency-aware ready-task index",
+    "area": "maintainer-tooling",
+    "difficulty": "beginner",
+    "summary": "Find unblocked work from the existing validated backlog and explicit completed IDs.",
+    "files": [
+      "scripts/ready-issues.mjs",
+      "test/ready-issues.test.mjs",
+      "docs/community/ready-issues.md"
+    ],
+    "acceptance": [
+      "Read validated backlog and an explicit completion list.",
+      "Exclude unresolved prerequisites and sort deterministically.",
+      "Output Markdown/JSON with IDs, difficulty, and prerequisite links."
+    ],
+    "validation": "Test chains, partial completion, no-ready results, and determinism.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-102",
+    "title": "Check local documentation links and anchors",
+    "area": "maintainer-tooling",
+    "difficulty": "intermediate",
+    "summary": "Catch broken navigation with an offline deterministic check.",
+    "files": [
+      "scripts/check-doc-links.mjs",
+      "test/doc-links.test.mjs",
+      ".github/workflows/ci.yml",
+      "docs/testing.md"
+    ],
+    "acceptance": [
+      "Verify relative Markdown links and local heading anchors.",
+      "Ignore fenced examples and handle encoded path characters.",
+      "Report external URLs out of scope without fetching them."
+    ],
+    "validation": "Test missing files, repeated headings, fences, and spaced paths.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-103",
+    "title": "Add a read-only release preflight command",
+    "area": "maintainer-tooling",
+    "difficulty": "intermediate",
+    "summary": "Check release readiness without changing the checkout or external services.",
+    "files": [
+      "scripts/release-preflight.mjs",
+      "test/release-preflight.test.mjs",
+      "docs/maintainers/releases.md"
+    ],
+    "acceptance": [
+      "Check package metadata, changelog, and clean working tree.",
+      "Compare requested version with package.json and local tags.",
+      "Return actionable failures without commits/tags/push/publish."
+    ],
+    "validation": "Use temporary valid, dirty, missing-entry, and tagged repositories.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-104",
+    "title": "Smoke-test the installed npm tarball",
+    "area": "maintainer-tooling",
+    "difficulty": "advanced",
+    "summary": "Verify packaged runtime and executable behavior independently of the checkout.",
+    "files": [
+      "scripts/test-package-install.mjs",
+      ".github/workflows/package-check.yml",
+      "docs/maintainers/releases.md"
+    ],
+    "acceptance": [
+      "Pack/install into a temporary project and invoke its executable.",
+      "Analyze a fixture and serve assets without checkout paths.",
+      "Enforce an allowlist excluding logs, reports, and unrelated files."
+    ],
+    "validation": "Run on Linux/Windows with spaced temporary paths.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-105",
+    "title": "Generate and verify release-artifact checksums",
+    "area": "maintainer-tooling",
+    "difficulty": "intermediate",
+    "summary": "Detect altered artifacts through deterministic SHA-256 manifests without publishing.",
+    "files": [
+      "scripts/release-checksums.mjs",
+      "test/release-checksums.test.mjs",
+      "docs/maintainers/releases.md"
+    ],
+    "acceptance": [
+      "Create ordered manifests for explicitly supplied artifacts.",
+      "Reject missing files, changed bytes, and malformed entries.",
+      "Reject escaping paths and perform no upload."
+    ],
+    "validation": "Test valid, modified, missing, and traversal cases.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-106",
+    "title": "Check executable shebangs and line endings",
+    "area": "maintainer-tooling",
+    "difficulty": "beginner",
+    "summary": "Keep entry points portable while preserving intentional fixture bytes.",
+    "files": [
+      "scripts/check-executables.mjs",
+      ".gitattributes",
+      "test/executable-hygiene.test.mjs",
+      "docs/testing.md"
+    ],
+    "acceptance": [
+      "Check portable Node shebangs and LF on designated executables.",
+      "Report path/problem without rewriting files.",
+      "Exclude fixtures and non-executable sources from this policy."
+    ],
+    "validation": "Test valid, CRLF, missing-shebang, and allowed-CRLF fixtures.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-107",
+    "title": "Check consistency of documented Node support",
+    "area": "maintainer-tooling",
+    "difficulty": "beginner",
+    "summary": "Align runtime requirements in package metadata, CI, and docs.",
+    "files": [
+      "config/support-policy.json",
+      "scripts/check-support-policy.mjs",
+      "test/support-policy.test.mjs",
+      "docs/support-policy.md"
+    ],
+    "acceptance": [
+      "Define minimum Node and CI majors in machine-readable policy.",
+      "Flag conflicting engines or missing matrix versions.",
+      "Document tested support and untested-version limits."
+    ],
+    "validation": "Test actual policy plus outdated engines/incomplete matrices.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-108",
+    "title": "Record privacy provenance for shared fixtures",
+    "area": "maintainer-tooling",
+    "difficulty": "beginner",
+    "summary": "Track synthetic origins, generation notes, and licensing separately from expected outputs.",
+    "files": [
+      "fixtures/provenance.json",
+      "scripts/check-fixture-provenance.mjs",
+      "test/fixture-provenance.test.mjs",
+      "docs/fixtures.md"
+    ],
+    "acceptance": [
+      "Record synthetic origin, generation notes, and license per shared fixture.",
+      "Flag absent/stale provenance and unsupported origins.",
+      "Demonstrate synthetic replacement without storing expected outputs."
+    ],
+    "validation": "Test valid, missing, stale, and malformed provenance.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-109",
+    "title": "Add seeded secret-canary report invariants",
+    "area": "privacy",
+    "difficulty": "advanced",
+    "summary": "Exercise documented masking across reproducible nested synthetic inputs.",
+    "files": [
+      "test/privacy/redaction-invariants.test.mjs",
+      "test/helpers/synthetic-canaries.mjs",
+      "docs/testing-privacy.md"
+    ],
+    "acceptance": [
+      "Generate covered secret types in supported nested positions.",
+      "Exclude original canaries and escaped variants from JSON/HTML.",
+      "Report seed/location without exposing the full input."
+    ],
+    "validation": "Run fixed seeds and prove a bypassed masker makes tests fail.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-110",
+    "title": "Verify standalone reports make no network requests",
+    "area": "privacy",
+    "difficulty": "advanced",
+    "summary": "Browser-test the offline promise on complete script-free hostile-markup reports.",
+    "files": [
+      "test/privacy/report-network.test.mjs",
+      "test/helpers/browser-harness.mjs",
+      ".github/workflows/privacy-checks.yml"
+    ],
+    "acceptance": [
+      "Allow no network request beyond initial local document load.",
+      "Keep remote-resource markup inert throughout report inspection.",
+      "Create no cookies, localStorage, or IndexedDB records."
+    ],
+    "validation": "Observe requests/storage and inject a resource to verify detection.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-111",
+    "title": "Add an HTML-injection report regression corpus",
+    "area": "privacy",
+    "difficulty": "intermediate",
+    "summary": "Keep untrusted text inert in script-free HTML reports.",
+    "files": [
+      "test/privacy/report-injection.test.mjs",
+      "fixtures/privacy/html-injection.jsonl",
+      "docs/testing-privacy.md"
+    ],
+    "acceptance": [
+      "Cover script delimiters, handlers, encoded markup, and comments.",
+      "Display payloads as text without marker-script execution.",
+      "Preserve surrounding entries and valid document structure."
+    ],
+    "validation": "Inspect generated DOM/text with the browser harness.",
+    "dependencies": [
+      "ABB-110"
+    ]
+  },
+  {
+    "id": "ABB-112",
+    "title": "Check CLI failures for session-content leaks",
+    "area": "privacy",
+    "difficulty": "intermediate",
+    "summary": "Retain useful error context without printing raw malformed sessions.",
+    "files": [
+      "test/privacy/cli-errors.test.mjs",
+      "fixtures/privacy/malformed-canaries.jsonl",
+      "docs/testing-privacy.md"
+    ],
+    "acceptance": [
+      "Cover malformed JSON, unsupported shape, and output failures.",
+      "Keep stderr free of canaries and raw excerpts.",
+      "Never emit partial secret-containing reports on failed stdout."
+    ],
+    "validation": "Capture both streams; assert status and canary absence.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-113",
+    "title": "Check fixture contact details and token canaries",
+    "area": "privacy",
+    "difficulty": "beginner",
+    "summary": "Require reserved domains and registered fake tokens in public examples.",
+    "files": [
+      "scripts/check-fixture-hygiene.mjs",
+      "fixtures/privacy/canaries.json",
+      "test/fixture-hygiene.test.mjs",
+      "docs/fixtures.md"
+    ],
+    "acceptance": [
+      "Use reserved email/URL domains in shared fixtures.",
+      "Register token-shaped strings as documented fake canaries.",
+      "Report only path and line, not detected token values."
+    ],
+    "validation": "Test approved/unapproved addresses and registered/unregistered tokens.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-114",
+    "title": "Verify restrictive saved-report permissions",
+    "area": "privacy",
+    "difficulty": "intermediate",
+    "summary": "Verify staging and final POSIX permissions while accurately describing Windows limits.",
+    "files": [
+      "lib/output.mjs",
+      "test/privacy/report-permissions.test.mjs",
+      "docs/privacy.md"
+    ],
+    "acceptance": [
+      "Create temporary/final reports with owner-only POSIX read/write.",
+      "Never broaden staged permissions during publication/replacement.",
+      "Explain Windows ACL limits without equating POSIX modes."
+    ],
+    "validation": "Inspect modes under permissive umask on Linux/macOS.",
+    "dependencies": [
+      "ABB-086"
+    ]
+  },
+  {
+    "id": "ABB-115",
+    "title": "Provide a synthetic security-report reproducer",
+    "area": "privacy",
+    "difficulty": "beginner",
+    "summary": "Help reporters demonstrate problems without attaching private sessions.",
+    "files": [
+      "examples/security/reproducer.mjs",
+      "examples/security/README.md",
+      "SECURITY.md"
+    ],
+    "acceptance": [
+      "Generate a synthetic canary session and local report.",
+      "Explain minimization, identity replacement, and version collection.",
+      "Follow existing private reporting routes; avoid public sensitive reports."
+    ],
+    "validation": "Run clean-checkout template and inspect synthetic outputs.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-116",
+    "title": "Create a runnable first-contribution lab",
+    "area": "documentation",
+    "difficulty": "beginner",
+    "summary": "Give newcomers practical fixture, documentation, and focused-test exercises.",
+    "files": [
+      "docs/community/first-contribution-lab.md",
+      "examples/contributor-lab/",
+      "CONTRIBUTING.md"
+    ],
+    "acceptance": [
+      "Provide separate fixture, CLI-example, and test exercises.",
+      "Name starting files, check commands, and expected results.",
+      "Use scratch branches/copies without public practice PR requirements."
+    ],
+    "validation": "Complete all three from a clean checkout and record prerequisites.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-117",
+    "title": "Maintain an English–French terminology glossary",
+    "area": "documentation",
+    "difficulty": "beginner",
+    "summary": "Keep translations consistent while preserving executable syntax.",
+    "files": [
+      "docs/i18n/glossary.json",
+      "docs/i18n/translation-guide.md",
+      "scripts/check-glossary.mjs",
+      "test/glossary.test.mjs"
+    ],
+    "acceptance": [
+      "Include English/French terms and contextual examples.",
+      "Keep commands, flags, code, and diagnostic IDs untranslated.",
+      "Reject duplicate or incomplete entries."
+    ],
+    "validation": "Run checks and compare translated examples against executable commands.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-118",
+    "title": "Execute designated documentation examples in CI",
+    "area": "documentation",
+    "difficulty": "intermediate",
+    "summary": "Keep CLI recipes working through an explicit manifest and isolated execution.",
+    "files": [
+      "docs/examples.manifest.json",
+      "scripts/test-doc-examples.mjs",
+      "test/doc-examples.test.mjs",
+      ".github/workflows/ci.yml"
+    ],
+    "acceptance": [
+      "List approved executables, argument arrays, fixtures, and assertions.",
+      "Run in temporary directories without shell interpolation.",
+      "Link invalid/missing output failures to documentation locations."
+    ],
+    "validation": "Test JSON/HTML examples, bad args, and missing expected output.",
+    "dependencies": []
+  },
+  {
+    "id": "ABB-119",
+    "title": "Document cross-platform release verification",
+    "area": "documentation",
+    "difficulty": "beginner",
+    "summary": "Provide tested checksum commands and a tampering demonstration.",
+    "files": [
+      "docs/install/verify-release.md",
+      "examples/release-verification/",
+      "README.md"
+    ],
+    "acceptance": [
+      "Cover Linux, macOS, and PowerShell manifest verification.",
+      "Demonstrate success and failure after modifying a fake artifact.",
+      "Explain that same-source checksums do not independently prove identity."
+    ],
+    "validation": "Run verification and tampering on every documented platform.",
+    "dependencies": [
+      "ABB-105"
+    ]
+  },
+  {
+    "id": "ABB-120",
+    "title": "Report external contributions from exported PR data",
+    "area": "community",
+    "difficulty": "intermediate",
+    "summary": "Measure merged-PR authors locally without conflating issue volume and participation.",
+    "files": [
+      "scripts/contributor-report.mjs",
+      "test/contributor-report.test.mjs",
+      "docs/community/contributor-metrics.md"
+    ],
+    "acceptance": [
+      "Count merged authors in range, excluding configured maintainers/bots.",
+      "State counting rules and that accounts may not equal people.",
+      "Read local JSON without tokens, network calls, messages, or posts."
+    ],
+    "validation": "Test repeat authors, unmerged PRs, bots, maintainers, and date boundaries.",
+    "dependencies": []
+  }
+]

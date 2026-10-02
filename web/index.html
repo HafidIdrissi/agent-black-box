@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark"><meta name="theme-color" content="#111510">
+  <meta name="description" content="Inspect AI agent sessions, find errors and repeated tool calls, and export a local diagnostic report.">
+  <title>Agent Black Box — inspect the flight</title>
+  <link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to session inspector</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Agent Black Box home"><span class="brand-mark" aria-hidden="true">▤</span><span>AGENT<span class="brand-light">BLACK BOX</span></span></a>
+    <span class="local-badge"><span class="live-dot" aria-hidden="true"></span> LOCAL SESSION INSPECTOR</span>
+  </header>
+  <main id="main">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">YOUR AGENT’S FLIGHT RECORDER</p><h1 id="page-title">See where the<br>run went <em>wrong.</em></h1><p class="intro-copy">Read the timeline. Follow the tool calls. Find the error that sent your agent in circles.</p></div>
+      <div class="intro-actions">
+        <button id="demo-button" class="button primary" type="button">Explore a failed run <span aria-hidden="true">↗</span></button>
+        <button id="import-button" class="button secondary" type="button">Open a session file</button>
+        <input id="file-input" type="file" accept=".json,.jsonl,.ndjson,application/json,application/x-ndjson,text/plain" hidden>
+        <p class="micro">JSON / JSONL · up to 10 MiB · no API key</p>
+      </div>
+    </section>
+    <div class="privacy-note"><span class="privacy-mark" aria-hidden="true">●</span><p>Session files stay in this browser. Common secrets are masked before display and export. <span>Redaction is best effort: review reports before sharing.</span></p></div>
+    <p id="status" class="status" role="status" aria-live="polite">Ready when you are. Open a file or explore the sample run.</p>
+    <section id="empty-state" class="empty-state" aria-labelledby="empty-title">
+      <div class="empty-art" aria-hidden="true"><span class="empty-line"></span><span class="empty-line"></span><span class="empty-line"></span><span class="recorder-symbol">↳</span></div>
+      <p class="eyebrow">NO SESSION LOADED</p><h2 id="empty-title">Every failed run leaves a trail.</h2>
+      <p>Drop a session file here, or start with a synthetic example of an agent repeating a command after a permission error.</p>
+      <div class="empty-steps" aria-label="How it works"><span><b>01</b> Import a run</span><span><b>02</b> Inspect the trail</span><span><b>03</b> Share the findings</span></div>
+    </section>
+    <section id="workspace" hidden aria-label="Session inspector">
+      <div class="session-bar">
+        <div class="session-identity"><p class="eyebrow">SESSION LOADED</p><h2 id="session-name"></h2><p id="session-source" class="micro"></p></div>
+        <div class="export-actions"><button id="export-json" class="button small secondary" type="button">Export JSON</button><button id="export-html" class="button small secondary" type="button">Export report ↗</button><button id="clear-button" class="button small quiet" type="button">Clear</button></div>
+      </div>
+      <div class="metrics" aria-label="Session overview">
+        <div class="metric"><span>Events</span><strong id="metric-events">0</strong><small>recorded in this session</small></div>
+        <div class="metric"><span>Tool calls</span><strong id="metric-calls">0</strong><small>actions taken by the agent</small></div>
+        <div class="metric"><span>Errors</span><strong id="metric-errors">0</strong><small>failed calls and orphan results</small></div>
+        <div class="metric"><span>Elapsed</span><strong id="metric-duration">—</strong><small>first to last valid timestamp</small></div>
+      </div>
+      <div class="inspector-grid">
+        <section class="timeline-panel" aria-labelledby="timeline-title">
+          <div class="panel-heading"><h2 id="timeline-title">The flight path</h2><span id="event-count" class="micro"></span></div>
+          <div class="filters">
+            <div class="search-field"><label for="search">Search events</label><input id="search" type="search" placeholder="Command, tool, message…" autocomplete="off"></div>
+            <div class="tool-field"><label for="tool-filter">Tool</label><select id="tool-filter"><option value="">All tools</option></select></div>
+            <label class="checkbox-label" for="error-filter"><input id="error-filter" type="checkbox"> Errors only</label>
+          </div>
+          <div id="timeline" class="timeline"></div><p id="no-results" class="no-results" hidden>No events match these filters. Try a different search or show all tools.</p>
+          <div class="load-more-wrap"><button id="load-more" class="button secondary small" type="button" hidden>Show next 100 events</button></div>
+        </section>
+        <aside class="findings-panel" aria-labelledby="findings-title">
+          <div class="panel-heading"><h2 id="findings-title">Signals</h2><span class="signal-icon" aria-hidden="true">⌁</span></div>
+          <div class="finding-intro">A starting point for your investigation.</div>
+          <section class="finding-section" aria-labelledby="repeat-title"><h3 id="repeat-title">Repeated calls</h3><div id="repeated-calls"></div><p class="micro signal-note">Matching calls can be intentional. Inspect their results before diagnosing a loop. Calls with masked fields are excluded from repetition checks.</p></section>
+          <section class="finding-section" aria-labelledby="tools-title"><h3 id="tools-title">Tool activity</h3><div id="tool-activity"></div></section>
+          <section id="warnings-section" class="finding-section" aria-labelledby="warnings-title" hidden><h3 id="warnings-title">Import notes</h3><ul id="warnings" class="warning-list"></ul></section>
+          <div class="redaction-card"><p class="eyebrow">REDACTION ENABLED</p><p>Displayed events and downloaded reports use the masked session. The original file is unchanged.</p></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>AGENT BLACK BOX</span><span>Understand the run. Improve the next one.</span><span class="footer-local">No account. No telemetry.</span></footer>
+  <noscript><p class="noscript">Enable JavaScript to inspect a session. Processing happens locally in your browser.</p></noscript>
+</body>
+</html>

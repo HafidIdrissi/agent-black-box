@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+*.log
+.DS_Store
+demo-report.html
+reports/
+.env
+.env.*
+issue-preview.json

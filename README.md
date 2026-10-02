@@ -1,18 +1,22 @@
 # Agent Black Box
 
+[![CI](https://github.com/HafidIdrissi/agent-black-box/actions/workflows/ci.yml/badge.svg)](https://github.com/HafidIdrissi/agent-black-box/actions/workflows/ci.yml)
+
 **Your AI agent failed. See what happened.**
 
 A local session debugger for AI coding agents. Import a Claude Code JSONL log, inspect tool calls and errors, find repeated attempts, and export a standalone report.
 
 Early MVP · MIT · Node.js 22+ · No dependencies · No API key
 
-[Français](docs/README.fr.md) · [Contribute](CONTRIBUTING.md) · [Architecture](docs/architecture.md) · [120 contribution proposals](docs/backlog.md)
+[Français](docs/README.fr.md) · [Contribute](CONTRIBUTING.md) · [Find a first issue](https://github.com/HafidIdrissi/agent-black-box/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) · [Architecture](docs/architecture.md) · [120 contribution proposals](docs/backlog.md)
 
 ## Try it in one minute
 
-Clone this repository, enter its directory, then:
+Clone the project and start the local viewer:
 
 ```sh
+git clone https://github.com/HafidIdrissi/agent-black-box.git
+cd agent-black-box
 npm start
 ```
 

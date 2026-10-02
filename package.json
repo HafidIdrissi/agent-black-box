@@ -1,0 +1,20 @@
+{
+  "name": "agent-black-box",
+  "version": "0.1.0",
+  "description": "Local flight recorder for AI coding-agent sessions.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "agent-black-box": "./bin/agent-black-box.mjs"
+  },
+  "scripts": {
+    "start": "node bin/agent-black-box.mjs serve",
+    "test": "node --test",
+    "check": "node scripts/check-project.mjs",
+    "demo:report": "node bin/agent-black-box.mjs analyze examples/permission-loop.jsonl --format html --output demo-report.html"
+  }
+}

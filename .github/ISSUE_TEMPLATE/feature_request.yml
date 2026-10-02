@@ -1,0 +1,22 @@
+name: Feature proposal
+description: Describe a user task and a small improvement.
+title: "Proposal: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: User problem
+      description: What task is difficult today? Check the backlog for related proposals.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Proposed scope and acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives, privacy implications, and compatibility
