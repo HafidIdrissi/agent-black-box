@@ -3,6 +3,8 @@ import { renderReport } from '../lib/report.mjs';
 import { DEMO_SESSION } from './demo.mjs';
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024, PAGE_SIZE = 100;
+const TEXT_SIZE_KEY = 'abb-text-size';
+const TEXT_SIZES = ['100%', '125%', '150%', '200%'];
 const ui = Object.fromEntries([
   'demo-button', 'import-button', 'file-input', 'status', 'empty-state', 'workspace',
   'session-name', 'session-source', 'metric-events', 'metric-calls', 'metric-errors',
@@ -23,6 +25,27 @@ function stringify(value) {
   try { return JSON.stringify(value, null, 2); } catch { return String(value); }
 }
 function status(message, kind = 'info') { ui.status.textContent = message; ui.status.dataset.kind = kind; }
+function applyTextSize(size) {
+  const value = TEXT_SIZES.includes(size) ? size : '100%';
+
+  document.documentElement.dataset.textSize = value.replace('%', '');
+
+  document.querySelectorAll('.text-size-button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.textSize === value));
+  });
+}
+
+function loadTextSize() {
+  const savedSize = localStorage.getItem(TEXT_SIZE_KEY);
+  applyTextSize(savedSize);
+}
+
+function saveTextSize(size) {
+  const value = TEXT_SIZES.includes(size) ? size : '100%';
+
+  localStorage.setItem(TEXT_SIZE_KEY, value);
+  applyTextSize(value);
+}
 function duration(value) {
   if (!Number.isFinite(value) || value < 0) return '—';
   if (value < 1000) return Math.round(value) + ' ms';
@@ -158,6 +181,13 @@ ui['demo-button'].addEventListener('click', () => {
 });
 ui['import-button'].addEventListener('click', () => ui['file-input'].click());
 ui['file-input'].addEventListener('change', () => importFile(ui['file-input'].files[0]));
+document.querySelectorAll('.text-size-button').forEach(button => {
+  button.addEventListener('click', () => {
+    saveTextSize(button.dataset.textSize);
+  });
+});
+
+loadTextSize();
 for (const id of ['search', 'tool-filter', 'error-filter']) ui[id].addEventListener(id === 'search' ? 'input' : 'change', () => { visibleLimit = PAGE_SIZE; renderTimeline(); });
 ui['load-more'].addEventListener('click', () => { visibleLimit += PAGE_SIZE; renderTimeline(); });
 ui['clear-button'].addEventListener('click', () => {
