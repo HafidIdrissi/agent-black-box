@@ -92,6 +92,7 @@ function renderActiveFilters() {
     clear.addEventListener('click', () => {
       resetFilters();
       renderTimeline();
+      ui.search.focus();
     });
     elements.push(clear);
   }
