@@ -6,7 +6,7 @@ const MAX_FILE_BYTES = 10 * 1024 * 1024, PAGE_SIZE = 100;
 const ui = Object.fromEntries([
   'demo-button', 'import-button', 'file-input', 'status', 'empty-state', 'workspace',
   'session-name', 'session-source', 'metric-events', 'metric-calls', 'metric-errors',
-  'metric-duration', 'search', 'tool-filter', 'error-filter', 'timeline', 'event-count',
+  'metric-duration', 'search', 'tool-filter', 'error-filter', 'active-filters', 'timeline', 'event-count',
   'no-results', 'load-more', 'repeated-calls', 'tool-activity', 'warnings-section',
   'warnings', 'export-json', 'export-html', 'clear-button',
 ].map(id => [id, document.getElementById(id)]));
@@ -36,7 +36,68 @@ function timestamp(value) {
 }
 function shortTime(value) { const date = timestamp(value); return date ? date.toISOString().slice(11, 19) : 'no time'; }
 function resetFilters() {
-  ui.search.value = ''; ui['tool-filter'].value = ''; ui['error-filter'].checked = false; visibleLimit = PAGE_SIZE;
+  ui.search.value = '';
+  ui['tool-filter'].value = '';
+  ui['error-filter'].checked = false;
+  visibleLimit = PAGE_SIZE;
+  renderActiveFilters();
+}
+function renderActiveFilters() {
+  const chips = [];
+
+  if (ui.search.value.trim()) {
+    chips.push({ label: 'Search: ' + ui.search.value.trim(), filter: 'search' });
+  }
+
+  if (ui['tool-filter'].value) {
+    chips.push({ label: 'Tool: ' + ui['tool-filter'].value, filter: 'tool' });
+  }
+
+  if (ui['error-filter'].checked) {
+    chips.push({ label: 'Errors only', filter: 'error' });
+  }
+
+  const elements = chips.map(({ label, filter }) => {
+    const chip = node('span', 'filter-chip');
+    chip.append(node('span', '', label));
+
+    const remove = node('button', 'filter-chip-remove', '×');
+    remove.type = 'button';
+    remove.setAttribute('aria-label', 'Remove ' + label + ' filter');
+
+    remove.addEventListener('click', () => {
+      if (filter === 'search') ui.search.value = '';
+      if (filter === 'tool') ui['tool-filter'].value = '';
+      if (filter === 'error') ui['error-filter'].checked = false;
+
+      const focusTarget = {
+        search: ui.search,
+        tool: ui['tool-filter'],
+        error: ui['error-filter'],
+      }[filter];
+
+      visibleLimit = PAGE_SIZE;
+      renderActiveFilters();
+      renderTimeline();
+      focusTarget.focus();
+    });
+
+    chip.append(remove);
+    return chip;
+  });
+
+  if (elements.length) {
+    const clear = node('button', 'clear-filters', 'Clear filters');
+    clear.type = 'button';
+    clear.addEventListener('click', () => {
+      resetFilters();
+      renderTimeline();
+      ui.search.focus();
+    });
+    elements.push(clear);
+  }
+
+  ui['active-filters'].replaceChildren(...elements);
 }
 function setSession(parsed, name) {
   if (!parsed || !Array.isArray(parsed.events)) throw new Error('The file did not contain a supported session.');
@@ -158,7 +219,13 @@ ui['demo-button'].addEventListener('click', () => {
 });
 ui['import-button'].addEventListener('click', () => ui['file-input'].click());
 ui['file-input'].addEventListener('change', () => importFile(ui['file-input'].files[0]));
-for (const id of ['search', 'tool-filter', 'error-filter']) ui[id].addEventListener(id === 'search' ? 'input' : 'change', () => { visibleLimit = PAGE_SIZE; renderTimeline(); });
+for (const id of ['search', 'tool-filter', 'error-filter']) {
+  ui[id].addEventListener(id === 'search' ? 'input' : 'change', () => {
+    visibleLimit = PAGE_SIZE;
+    renderActiveFilters();
+    renderTimeline();
+  });
+}
 ui['load-more'].addEventListener('click', () => { visibleLimit += PAGE_SIZE; renderTimeline(); });
 ui['clear-button'].addEventListener('click', () => {
   ++loadSequence; session = null; sessionName = ''; resetFilters(); ui['file-input'].value = '';
