@@ -36,14 +36,26 @@ function applyTextSize(size) {
 }
 
 function loadTextSize() {
-  const savedSize = localStorage.getItem(TEXT_SIZE_KEY);
+  let savedSize = null;
+
+  try {
+    savedSize = localStorage.getItem(TEXT_SIZE_KEY);
+  } catch {
+    savedSize = null;
+  }
+
   applyTextSize(savedSize);
 }
 
 function saveTextSize(size) {
   const value = TEXT_SIZES.includes(size) ? size : '100%';
 
-  localStorage.setItem(TEXT_SIZE_KEY, value);
+  try {
+    localStorage.setItem(TEXT_SIZE_KEY, value);
+  } catch {
+    // Persistence is optional; keep the viewer usable.
+  }
+
   applyTextSize(value);
 }
 function duration(value) {

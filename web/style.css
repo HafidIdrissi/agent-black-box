@@ -120,6 +120,20 @@ h1 {
   font-size: calc(11px * var(--text-scale)) !important;
 }
 
+.event pre {
+  font-size: calc(11px * var(--text-scale)) !important;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.event-meta {
+  font-size: calc(10px * var(--text-scale)) !important;
+}
+
+.detail-label {
+  font-size: calc(10px * var(--text-scale)) !important;
+}
+
 .finding-intro {
   font-size: calc(11px * var(--text-scale)) !important;
 }
