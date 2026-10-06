@@ -132,12 +132,6 @@ h1 {
   }
 }
 
-@media (max-width: 1000px) {
-  .checkbox-label {
-    min-height: calc(28px * var(--text-scale));
-  }
-}
-
 .panel-heading h2 {
   font-size: calc(15px * var(--text-scale)) !important;
 }
@@ -156,6 +150,11 @@ select {
 .checkbox-label {
   font-size: calc(11px * var(--text-scale)) !important;
   min-height: calc(36px * var(--text-scale));
+}
+@media (max-width: 1000px) {
+  .checkbox-label {
+    min-height: calc(28px * var(--text-scale));
+  }
 }
 
 .text-size-label {
