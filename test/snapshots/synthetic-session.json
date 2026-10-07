@@ -1,0 +1,67 @@
+{
+  "events": [
+    {
+      "content": "Run the example check.",
+      "id": "event-1",
+      "input": null,
+      "status": "ok",
+      "timestamp": "2026-10-01T10:00:00.000Z",
+      "tool": null,
+      "toolCallId": null,
+      "type": "message"
+    },
+    {
+      "content": "",
+      "durationMs": 1000,
+      "id": "event-2",
+      "input": {
+        "command": "npm test",
+        "cwd": "/synthetic/project"
+      },
+      "status": "ok",
+      "timestamp": "2026-10-01T10:00:01.000Z",
+      "tool": "Bash",
+      "toolCallId": "call-1",
+      "type": "tool_call"
+    },
+    {
+      "content": "2 tests passed",
+      "durationMs": 1000,
+      "id": "event-3",
+      "input": null,
+      "status": "ok",
+      "timestamp": "2026-10-01T10:00:02.000Z",
+      "tool": "Bash",
+      "toolCallId": "call-1",
+      "type": "tool_result"
+    },
+    {
+      "content": "The example check passed.",
+      "id": "event-4",
+      "input": null,
+      "status": "ok",
+      "timestamp": "2026-10-01T10:00:03.000Z",
+      "tool": null,
+      "toolCallId": null,
+      "type": "message"
+    }
+  ],
+  "schemaVersion": 1,
+  "source": "claude-code",
+  "warnings": [],
+  "analysis": {
+    "totalEvents": 4,
+    "toolCalls": 1,
+    "errors": 0,
+    "skippedMaskedCalls": 0,
+    "tools": [
+      {
+        "name": "Bash",
+        "calls": 1,
+        "errors": 0
+      }
+    ],
+    "repeatedCalls": [],
+    "durationMs": 3000
+  }
+}
