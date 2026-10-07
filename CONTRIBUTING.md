@@ -46,6 +46,17 @@ Small documentation fixes do not require tests that simply restate the edited te
 - Default to local processing. New outbound network behavior needs explicit product discussion.
 - Do not add secrets, real personal data, generated bulk changes, or unrelated cleanup.
 
+## CLI snapshots
+
+CLI snapshot tests use a small fictional session in `test/snapshots/`. They cover JSON output, HTML output, and the deterministic unsupported-format failure.
+
+Run the normal tests with `npm test`. Normal tests only compare the committed snapshots and never rewrite them.
+
+To intentionally regenerate snapshots after a reviewed CLI output change, run `node scripts/update-cli-snapshots.mjs`.
+
+Review the resulting changes in `test/snapshots/` before committing them. A changed expected field should be treated as a behavior change: inspect the diff, confirm that the output change is intentional, and commit the updated snapshot with the corresponding code or fixture change.
+
+Snapshots use synthetic records only. Do not add real agent sessions, credentials, or private logs.
 ## Reviews and recognition
 
 Maintainers should explain requested changes and review small first contributions promptly when available; there is no guaranteed response time. Helpful reviews, documentation, and reproducible reports matter alongside merged code.
